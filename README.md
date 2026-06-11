@@ -1,4 +1,13 @@
-# the-universe-of-things
+# The Universe Of Things
+
+
+
+
+
+
+
+
+# VUE standart template info:
 
 This template should help get you started developing with Vue 3 in Vite.
 
