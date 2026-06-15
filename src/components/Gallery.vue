@@ -1,5 +1,5 @@
 <script setup>
-    import { onMounted, reactive, ref } from 'vue';
+    import { ref, computed, onMounted } from 'vue';
     import ProductCard from './ProductCard.vue';
     import FilterControls from './FilterControls.vue';
     import PaginationControls from './PaginationControls.vue';
@@ -9,11 +9,10 @@
     import { useProductsStore } from '@/stores/products-store';
     import { storeToRefs } from 'pinia';
 
-    const filter = ref("Action");
+    const filter = ref("");
     const searchInput = ref("");
 
     const itemsPerPage = ref(8);
-    const pagPagesCount = ref(0);
     const pagCurrentPage = ref(0);
 
     const productsStore = useProductsStore();
@@ -23,20 +22,36 @@
     // Download products from the API
     onMounted( async () => {
         await call();
+    });
+
+
+    const filteredProducts = computed(() => {
+        let result = products.value;
+
+
+        if (!result.length) {
+            return result;
+        };
+
+        // Recall first page when filter or search entried
+        pagCurrentPage.value = 0;
 
         // Apply category filter
-        products.value = filterProducts(products.value, filter.value);
-        
-        // Apply search by name
-        products.value = searchProducts(products.value, searchInput.value);
-        
-        // Separate products to pages in a new array: [ [8 items], [8 items], [rest of items] ]
-        products.value = paginateProducts(products.value, itemsPerPage.value);
+        result = filterProducts(result, filter.value);
 
-        // Giving a number of product pages to pagination component
-        pagPagesCount.value = products.length;
+        // Apply search by name
+        result = searchProducts(result, searchInput.value);
+
+        // Separate products to pages in a new array: [ [8 items], [8 items], [rest of items] ]
+        result = paginateProducts(result, itemsPerPage.value);
+
+        return result;
     });
+
+    // Giving a number of product pages to pagination component
+    const pagPagesCount = computed(() => filteredProducts.value.length);
     
+
 
 </script>
 
@@ -50,7 +65,7 @@
 
         <!-- ITEMS GRID -->
         <div class="products_grid">
-            <template v-for="(item, key) in products[pagCurrentPage]" :key="key">
+            <template v-for="(item, key) in filteredProducts[pagCurrentPage]" :key="key">
                 <ProductCard 
                     :id="item.mal_id"
                     :imgUrl="item.images?.jpg?.image_url"
