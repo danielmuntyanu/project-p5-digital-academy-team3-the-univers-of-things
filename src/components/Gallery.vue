@@ -9,7 +9,7 @@
     import { useProductsStore } from '@/stores/products-store';
     import { storeToRefs } from 'pinia';
 
-    const filter = ref("");
+    const filter = ref("Action");
     const searchInput = ref("");
 
     const itemsPerPage = ref(8);
