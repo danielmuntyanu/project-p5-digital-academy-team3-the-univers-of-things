@@ -2,7 +2,7 @@
 </script>
 
 <template>
-    <h2>(Pagination)</h2>
+    <h2 class="w-full text-center">(Pagination)</h2>
 
 </template>
 

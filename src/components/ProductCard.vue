@@ -23,7 +23,7 @@ const props = defineProps([
             <p class="description">{{ description }}</p>
 
             <div class="genres_container">
-                <template v-for="genre, key in genres" :key="key">
+                <template v-for="(genre, key) in genres" :key="key">
                     <div class="genre">{{ genre }}</div>
                 </template>
             </div>
@@ -43,7 +43,7 @@ const props = defineProps([
 
 .container {
     @apply 
-        bg-bg-container rounded-lg shadow-lg
+        max-h-[70vh] bg-bg-container rounded-lg shadow-lg
         border border-border-default
         grid grid-rows-2 gap-0
         ;
@@ -92,7 +92,8 @@ const props = defineProps([
 
 .genre {
     @apply 
-        p-2 rounded-sm border border-border-default
+        p-2 rounded-sm 
+        border border-border-default bg-bg-input
     ;
 }
 .bottom_container {

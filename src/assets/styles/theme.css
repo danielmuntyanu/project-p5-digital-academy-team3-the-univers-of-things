@@ -30,8 +30,8 @@
 :root {
     --bg-body: #0c0e12; 
     --bg-surface: #111317;
-    --bg-container: #17191f; 
-    --bg-input: #1a1c20;
+    --bg-container: #1A1C20;
+    --bg-input: #1E2024;
 
     --bg-brand: #00F0FF;
     --bg-brand-darker: #152f35;
@@ -48,7 +48,7 @@
     --text-muted: #717b7d;
     --text-error: #FF6969; 
 
-    --border-default: #22242a;
+    --border-default: #3b494b4c;
     --border-brand: #00e9f7;
     --border-strong: #DBFCFF;
 }
