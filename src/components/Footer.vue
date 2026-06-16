@@ -66,7 +66,7 @@
 @reference "../assets/main.css";
 
 .footer {
-  @apply bg-bg-surface border-t border-border-default mt-16;
+  @apply bg-bg-body border-t border-border-default mt-16;
 }
 
 .footer-inner {

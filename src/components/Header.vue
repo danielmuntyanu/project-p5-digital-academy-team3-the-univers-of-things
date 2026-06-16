@@ -45,7 +45,7 @@
 @reference "../assets/main.css";
 
 .header {
-  @apply sticky top-0 z-50 bg-bg-surface border-b border-border-default;
+  @apply sticky top-0 z-50 bg-bg-body border-b border-border-default;
 }
 
 .header-inner {
