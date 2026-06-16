@@ -1,4 +1,8 @@
-<script setup></script>
+<script setup>
+import { useAuthStore } from '../stores/auth.js'
+
+const auth = useAuthStore()
+</script>
 
 <template>
   <header class="header">
@@ -9,8 +13,14 @@
         <span class="header-logo-sub">Anime</span>
       </a>
 
-      <!-- Actions -->
-      <div class="header-actions">
+      <!-- Sin registrar -->
+      <div v-if="!auth.isLoggedIn" class="header-actions">
+        <button class="header-btn-login">Login</button>
+        <button class="header-btn-register">Registro</button>
+      </div>
+
+      <!-- Registrado -->
+      <div v-else class="header-actions">
         <button class="header-btn-grid">
           <svg
             width="18"
@@ -28,7 +38,6 @@
             <rect x="14" y="14" width="7" height="7" />
           </svg>
         </button>
-
         <button class="header-btn-avatar">
           <img
             src="https://api.dicebear.com/7.x/avataaars/svg?seed=nexus"
@@ -45,7 +54,7 @@
 @reference "../assets/main.css";
 
 .header {
-  @apply sticky top-0 z-50 bg-bg-surface border-b border-border-default;
+  @apply sticky top-0 z-50 bg-bg-body border-b border-border-default;
 }
 
 .header-inner {
@@ -67,6 +76,14 @@
 
 .header-actions {
   @apply flex items-center gap-2;
+}
+
+.header-btn-login {
+  @apply px-4 py-1.5 rounded-lg text-sm text-text-muted hover:text-text-default hover:bg-bg-container transition-colors;
+}
+
+.header-btn-register {
+  @apply px-4 py-1.5 rounded-lg text-sm font-semibold text-bg-body bg-text-brand hover:opacity-90 transition-opacity;
 }
 
 .header-btn-grid {
