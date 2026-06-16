@@ -19,7 +19,7 @@ onMounted(async () => {
 
 <template>
   <section class="featured-section">
-    <h2 class="featured-title">Anime de la semana</h2>
+    
 
     <p v-if="loading" class="featured-loading">Cargando...</p>
     <p v-else-if="error" class="featured-error">{{ error }}</p>
@@ -30,10 +30,12 @@ onMounted(async () => {
       <div class="featured-overlay"></div>
 
       <div class="featured-info">
+        <label class="featured-anime-badge"for="">Anime de la semana</label>
         <h3 class="featured-anime-title">{{ anime.title }}</h3>
         <p v-if="anime.title_english" class="featured-anime-subtitle">{{ anime.title_english }}</p>
 
         <p class="featured-synopsis">{{ anime.synopsis }}</p>
+        <input type="button" class="favorite-anime-week" value="Add to Favorites">
       </div>
     </div>
   </section>
@@ -46,8 +48,10 @@ onMounted(async () => {
   @apply w-full flex flex-col gap-4 p-6;
 } */
 
+
 .featured-title {
-  @apply text-2xl font-bold;
+  @apply
+    font-(family-name:--JetBrains-Mono);
 }
 
 .featured-loading,
@@ -60,6 +64,12 @@ onMounted(async () => {
     relative rounded-lg overflow-hidden
     w-full h-190
     bg-cover bg-center;
+}
+
+.featured-anime-badge {
+  @apply
+    bg-bg-special mr-83 pl-5 pt-0.5 pb-0.5 rounded-lg
+    text-[8px] text-[#531900];
 }
 
 .featured-overlay {
@@ -79,7 +89,8 @@ onMounted(async () => {
   @apply 
     absolute bottom-6 left-6
     flex flex-col gap-3
-    z-10 max-w-md;
+    z-10 max-w-md
+    ml-10;
 }
 
 .featured-anime-title {
@@ -91,7 +102,9 @@ onMounted(async () => {
 }
 
 .featured-synopsis {
-  @apply line-clamp-4 leading-relaxed;
+  @apply line-clamp-4 leading-relaxed /*font-grotesk*/
+  text-[#b9cacb]
+  -mr-20;
 }
 
 .featured-genres {
