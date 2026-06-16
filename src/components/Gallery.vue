@@ -25,7 +25,6 @@
         await call();
     });
 
-
     const filteredProducts = computed(() => {
         let result = products.value;
 
@@ -63,9 +62,6 @@
         return [...result];
     });
 
-    
-
-
 </script>
 
 <template>
@@ -73,8 +69,8 @@
     
         <!-- FILTERS CONTAINER -->
         <div class="filters_container"> 
-            <SearchField v-model="searchInput" />
-            <FilterControls v-model="filter" :filterList="filterList"/>
+            <SearchField class="search_field" v-model="searchInput" />
+            <FilterControls class="filter_controls" v-model="filter" :filterList="filterList"/>
         </div>
 
         <h1>Animes</h1>
@@ -95,6 +91,8 @@
             </template>
         </div>
 
+        <span class="no_items_found_message" :class="!filteredProducts.length ? 'block' : 'hidden'">No items found</span>
+
         <!-- PAGINATION -->
         <PaginationControls 
             v-model="pagCurrentPage" 
@@ -110,15 +108,28 @@
 
 .section {
     @apply 
-        w-full min-h-screen bg-bg-surface p-4 flex flex-col gap-8
+        min-h-screen
+        w-full bg-bg-surface p-4 flex flex-col gap-8
     ;
 }
 
 .filters_container {
     @apply 
-        w-full flex flex-col sm:flex-row gap-4 p-4
+        w-full flex flex-col md:justify-between md:items-start
+        md:flex-row gap-4 p-4
         bg-bg-container rounded-lg shadow-lg
         border border-border-default
+    ;
+}
+
+.search_field {
+    @apply 
+        md:w-[30%]
+    ;
+}
+.filter_controls {
+    @apply
+        md:w-[70%]
     ;
 }
 
@@ -127,6 +138,11 @@
         grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 
         gap-8
         ;
+}
+
+.no_items_found_message {
+    /* font-family: 'JetBrains Mono', monospace; */
+    @apply text-center text-3xl text-text-muted;
 }
 
 
