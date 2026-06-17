@@ -30,7 +30,7 @@ const model = defineModel();
 
 .search_title {
     @apply 
-        p-1
+        uppercase font-light text-lg p-1 text-text-default/70
     ;
 }
 

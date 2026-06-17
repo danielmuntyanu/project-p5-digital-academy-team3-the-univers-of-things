@@ -1,4 +1,5 @@
 <script setup>
+import { Star, Heart } from 'lucide-vue-next';
 
 const props = defineProps([
     "id", "imgUrl", "title",
@@ -11,11 +12,20 @@ const props = defineProps([
 
 <template>
     <div :id="id" class="container">
-        
+
         <div class="image_container">
             <img class="image" :src="imgUrl" :alt="title"/>
+            <div class="score">
+                <Star :size="12" fill="currentColor" :strokeWidth="2" /> {{ score }}
+            </div>
+
+            <!-- TODO: Move this to component AddFavotiteButton -->
+            <div class="favorite">
+                <Heart :size="24" :fill="true ? 'none' : 'currentColor'" :strokeWidth="2" />
+            </div>
         </div>
 
+        
         <div class="content_container">
 
             <h3 class="title">{{ title }}</h3>
@@ -43,10 +53,11 @@ const props = defineProps([
 
 .container {
     @apply 
-        max-h-[70vh] bg-bg-container rounded-lg shadow-lg
+        max-h-[70vh] max-w-[320px]
+        bg-bg-container rounded-lg shadow-lg
         border border-border-default
         grid grid-rows-2 gap-0
-        ;
+    ;
 
 }
 
@@ -54,33 +65,60 @@ const props = defineProps([
     @apply
         bg-bg-body rounded-lg 
         flex flex-col justify-center items-center 
-        w-full
-        ;
+        w-full relative
+    ;
 }
 
 .image {
     @apply
-        h-full object-contain
-        ;
+        h-full object-contain z-0
+    ;
+}
+
+.favorite {
+    @apply
+        absolute top-4 left-4 rounded-full
+        w-10 h-10 shadow-md
+        bg-bg-container text-text-default
+        border border-border-default
+        flex justify-center items-center
+
+        hover:text-text-brand hover:border-border-brand
+        active:bg-bg-brand active:text-text-on-brand
+    ;
+}
+
+.favorite_active {
+    @apply
+        text-text-brand bg-bg-brand-darker border-border-brand shadow-md
+    ;
+}
+
+.score {
+    @apply
+        absolute top-4 right-4 rounded-md
+        inline-flex flex-row gap-1 items-center
+        px-2 py-1 text-sm
+        bg-bg-container border border-border-default
+    ;
 }
 
 .content_container {
     @apply 
         p-4 gap-2 flex flex-col justify-between items-start
-        ;
+    ;
 }
 
 
 .title {
     @apply 
-        text-left w-full
-        ;
-
+        text-left w-full text-lg
+    ;
 }
 
 .description {
     @apply
-        line-clamp-2
+        line-clamp-2 text-sm text-text-default/70
     ;
 }
 

@@ -20,9 +20,13 @@
     const { products } = storeToRefs(productsStore);
     const { call } = productsStore;
 
+    const noItemsMessage = ref("No items found")
+
     // Download products from the API
     onMounted( async () => {
+        noItemsMessage.value = "Loading...";
         await call();
+        noItemsMessage.value = "No items found";
     });
 
     const filteredProducts = computed(() => {
@@ -91,7 +95,11 @@
             </template>
         </div>
 
-        <span class="no_items_found_message" :class="!filteredProducts.length ? 'block' : 'hidden'">No items found</span>
+        <span 
+            class="no_items_message" 
+            :class="!filteredProducts.length ? 'block' : 'hidden'">
+            {{ noItemsMessage }}
+        </span>
 
         <!-- PAGINATION -->
         <PaginationControls 
@@ -136,11 +144,12 @@
 .products_grid {
     @apply 
         grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 
-        gap-8
+        gap-8 
+        justify-items-center md:justify-items-normal
         ;
 }
 
-.no_items_found_message {
+.no_items_message {
     /* font-family: 'JetBrains Mono', monospace; */
     @apply text-center text-3xl text-text-muted;
 }

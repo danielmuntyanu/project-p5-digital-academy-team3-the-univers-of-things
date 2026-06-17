@@ -14,9 +14,9 @@ const props = defineProps([
 <template>
 
     <div class="filters_controls">
-        <h3>Filters:</h3>
+        <h3 class="filters_title">Filters:</h3>
         <div @click="model = '' "
-            class="genre_filter"
+            class="genre_filter filter_all"
             :class="{'active': !model }"
         >All</div>
         <template v-for="(genre, key) in filterList" :key="key">
@@ -40,13 +40,25 @@ const props = defineProps([
     ;
 }
 
+.filters_title {
+    @apply 
+        uppercase font-light text-lg text-text-default/70
+    ;
+}
+
 .genre_filter {
     @apply 
-        p-2 rounded-sm text-sm cursor-pointer
+        p-2 rounded-xl text-sm cursor-pointer
         border border-border-default bg-bg-input
         hover:bg-bg-brand-darker hover:border-border-brand hover:text-text-brand
         active:bg-bg-brand-hover active:text-text-on-brand
         
+    ;
+}
+
+.filter_all {
+    @apply 
+        px-4
     ;
 }
 
