@@ -1,3 +1,3 @@
-export default function addToFavirites (id) {
+export default function addToFavorites (id) {
     return true;
 }
