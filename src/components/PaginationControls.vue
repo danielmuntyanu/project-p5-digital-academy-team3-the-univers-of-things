@@ -13,7 +13,7 @@ const arrowLeftDisabled = computed(() => {
 })
 
 const arrowRightDisabled = computed(() => {
-    return model.value + 1 == props.totalPages; 
+    return model.value + 1 == props.totalPages || !props.totalPages; 
 })
 
 function prevPage () {
@@ -41,6 +41,14 @@ function nextPage () {
         >
             <ArrowLeft />
         </div>
+
+        <template v-if="!totalPages">
+            <div
+                class="pag_page disabled"
+            >
+                0
+            </div>
+        </template>
 
         <template v-for="n in totalPages" :key="n">
             <div 
@@ -79,8 +87,12 @@ function nextPage () {
     @apply
         p-2 px-4 flex justify-center items-center 
         rounded-lg border border-bg-surface
+        
+        transition-all duration-300
         hover:border hover:border-border-brand hover:text-text-brand
         hover:shadow-lg
+        active:bg-bg-brand active:text-text-on-brand
+        
     ;
 }
 
@@ -89,8 +101,10 @@ function nextPage () {
         p-2 flex justify-center items-center 
         rounded-lg shadow-lg
         border border-border-default
+
+        transition-all duration-300
         hover:border-border-brand hover:text-text-brand
-        
+        active:bg-bg-brand active:text-text-on-brand
     ;
 }
 

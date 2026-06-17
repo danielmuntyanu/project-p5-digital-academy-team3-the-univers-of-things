@@ -79,11 +79,12 @@ const props = defineProps([
 .favorite {
     @apply
         absolute top-4 left-4 rounded-full
-        w-10 h-10 shadow-md
+        w-10 h-10 shadow-lg
         bg-bg-container text-text-default
         border border-border-default
         flex justify-center items-center
 
+        transition-all duration-300
         hover:text-text-brand hover:border-border-brand
         active:bg-bg-brand active:text-text-on-brand
     ;
@@ -99,7 +100,7 @@ const props = defineProps([
     @apply
         absolute top-4 right-4 rounded-md
         inline-flex flex-row gap-1 items-center
-        px-2 py-1 text-sm
+        px-2 py-1 text-sm shadow-lg
         bg-bg-container border border-border-default
     ;
 }

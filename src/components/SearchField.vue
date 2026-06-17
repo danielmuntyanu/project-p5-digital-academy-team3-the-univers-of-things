@@ -38,7 +38,11 @@ input {
     @apply 
         w-full h-auto p-2 rounded-lg
         bg-bg-input border border-border-default
-        active:border-border-brand text-text-default 
+        
+        transition-all duration-300
+        hover:border-border-strong
+        active:border-border-brand active:text-text-default
+        active:ring-border-brand
     ;
 }
 

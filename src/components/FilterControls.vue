@@ -1,12 +1,10 @@
 <script setup>
 
-
 const model = defineModel();
 
 const props = defineProps([
     "filterList",
 ])
-
 
 </script>
 
@@ -50,6 +48,8 @@ const props = defineProps([
     @apply 
         p-2 rounded-xl text-sm cursor-pointer
         border border-border-default bg-bg-input
+        
+        transition-all duration-300
         hover:bg-bg-brand-darker hover:border-border-brand hover:text-text-brand
         active:bg-bg-brand-hover active:text-text-on-brand
         
