@@ -1,70 +1,113 @@
 <script setup>
     import { ref } from "vue";
-    import { Star, Heart } from 'lucide-vue-next';
+    import { Heart } from 'lucide-vue-next';
 
-    import checkUser from "../services/check-user.js";
-    import addToFavorites from "../services/add-to-favorites.js";
-    import removeFromFavorites from "../services/remove-from-favorites.js";
-
-    const active = ref(false)
+    import { useAuthStore } from "@/stores/auth-store";
+    import { useFavoritesStore } from "@/stores/favorites-store";
+    
+    const authStore = useAuthStore();
+    const favoritesStore = useFavoritesStore();
+    const { checkFav, removeFavorite, addFavorite } = favoritesStore;
 
     const props = defineProps({
         productId: {
             type: Number,
             required: true
+        },
+        size: {
+            type: String,
+            required: false,
         }
     })
 
-    const addToFavListener = () => {
-        const user = checkUser();
+    const active = computed( () => {
+        return checkFav(props.productId);
+    })
 
-        if (!user) {
-            // Mostrar mensaje
-        } else if (user === "user") {
+    const buttonListener = async () => {
+        
+        const userType = await authStore.userType.value;
+        console.log(`UserType: ${userType}`);
+        
+        if (!userType) {
             
-            if (active.value) {
-                active.value = false;
-                removeFromFavorites(id_de_producto);
-                // cambiar icono vasio
-            } else {
-                active.value = true;
-                addToFavorites(id_de_producto);
-                // cambiar icono color
+            
+            
+            // Mostrar mensaje
+            console.log("MOSTRAMOS MENSAJE QUE NECESITAN LOGIN");
+            
 
+
+        } else if (userType === "user") {
+            if (active.value) {
+                // active.value = false;
+                await removeFavorite(props.productId);
+            } else {
+                // active.value = true;
+                await addFavorite(props.productId);
             }
-                
         }
     }
 
 </script>
 
 <template>
-    <div 
-        @click="addToFavListener"
-        class="favorite-button"
-    >
-        <Heart
-        :size="24"
-        :fill="active ? 'currentColor' : 'none'"
-        :strokeWidth="active ? 'text-orange-500' : 'text-white'"
-        class="transition-all duration-300"
-        />
-        {{active ? 'Added to Favorites' : 'Add to Favorites' }}
-        
-    </div>
+    <template v-if="size && size == 'sm'">
+        <div 
+            @click="addToFavListener"
+            class="favorite-button-sm"
+        >
+            <Heart 
+                :size="24" 
+                :fill="active ? 'currentColor' : 'none'" 
+                :strokeWidth="2" 
+            />
+        </div>
+    </template>
+    <template v-else>
+        <div 
+            @click="buttonListener"
+            class="favorite-button-lg"
+        >
+            <Heart
+            :size="24"
+            :fill="active ? 'currentColor' : 'none'"
+            :strokeWidth="active ? 'text-orange-500' : 'text-white'"
+            />
+            {{active ? 'Added to Favorites' : 'Add to Favorites' }}
+            
+        </div>
+    </template>
+    
 </template>
 
 <style scoped>
-/* Para usar Tailwind con @apply aqui. Cambia la dirección en otras carpetas! */
 @reference "../assets/main.css";
 
-.favorite-button {
+.favorite-button-lg {
     font-family: 'Hanken Grotesk';
     @apply
         flex gap-3 cursor-pointer
         mr-60 py-3 px-4 rounded-sm
         bg-bg-input border border-border-default
-        hover:bg-bg-brand-darker;
+        hover:bg-bg-brand-darker
+
+        transition-all duration-300
+    ;
+}
+
+.favorite-button-sm {
+    @apply
+        absolute top-4 left-4 rounded-full
+        w-10 h-10 shadow-lg
+        bg-bg-container text-text-default
+        border border-border-default
+        flex justify-center items-center
+
+        transition-all duration-500
+        hover:text-text-brand hover:border-border-brand
+        active:bg-bg-brand active:text-text-on-brand
+    ;
 }
 
 
