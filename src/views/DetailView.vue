@@ -1,13 +1,16 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, onMounted, computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import getAnimeById from '../services/product-by-id.js';
+import ProductCard from '../components/ProductCard.vue';
+import getAnimeByGenre from '../services/product-by-genre.js';
 
 
 const route = useRoute()
 const animeData = ref(null)
 const loading = ref(false)
 const error = ref(null)
+const router = useRouter()
 
 const airedFrom = computed(() => {
   if (!animeData.value?.aired?.from) return null
@@ -31,6 +34,29 @@ onMounted(async () => {
   }
 })
 
+const recommendations = ref([])
+
+watch(animeData, async (newData) => {
+  if (!newData) return
+
+  const genreId = newData.genres?.[0]?.mal_id
+  if (!genreId) return
+  console.log('Genre ID:', genreId);
+  
+
+  const results = await getAnimeByGenre(genreId)
+  console.log('Recommendations:', results);
+  
+
+  recommendations.value = results?.filter(item => item.mal_id !== newData.mal_id) ?? []
+  console.log('Final recommendations:', recommendations.value);
+  
+})
+
+const goToDetail = (animeId) => {
+  router.push({ name: 'detail', params: { id: animeId } })
+}
+
 </script>
 
 <template>
@@ -43,7 +69,7 @@ onMounted(async () => {
   <div v-else-if="!animeData" class="text-center py-12">
     <p class="text-text-muted">Anime not found.</p>
   </div>
-  <div class="detail-container">
+  <div v-else class="detail-container">
     <div class="detail-left">
       <div class="detail-image">
         <img :src="animeData?.images?.jpg?.large_image_url" :alt="animeData?.title" class="w-full h-full object-cover"/>
@@ -68,18 +94,36 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <div class="detail-content">
-      <section class="detail-synopsis">
-        <h2>Synopsis</h2>
-        <p>{{ animeData?.synopsis }}</p>
-        <div class="details-genre">
-          <span v-for="genre in animeData?.genres" :key="genre.mal_id" class="synopsis-genre">
-            {{ genre.name }}
-          </span>
+    <div class="detail-content-container">
+      <div class="detail-content">
+        <section class="detail-synopsis">
+          <h2>Synopsis</h2>
+          <p>{{ animeData?.synopsis }}</p>
+          <div class="details-genre">
+            <span v-for="genre in animeData?.genres" :key="genre.mal_id" class="synopsis-genre">
+              {{ genre.name }}
+            </span>
+          </div>
+        </section>
+      </div>
+      <div class="detail-recommendations">
+        <h2>Related Recommendations</h2>
+        <div class="recommendations-cards">
+          <ProductCard
+          v-for="item in recommendations"
+          :key="item.mal_id"
+          :id="item.mal_id"
+          :imgUrl="item.images?.jpg?.large_image_url"
+          :title="item.title"
+          :score="item.score"
+          :category="item.type"
+          :genres="item.genres?.map(g => g.name)"
+          :episodes="item.episodes"
+          @click="goToDetail(item.mal_id)"
+          />
         </div>
-      </section>
+      </div>
     </div>
-
   </div>
 </template>
 
@@ -133,13 +177,23 @@ h2 {
     ;
 }
 
-.detail-content {
+.detail-content-container {
   @apply
     flex flex-col gap-8
     w-2/3
+    ;
+}
+
+.detail-content {
+  @apply
     bg-bg-container border border-border-default rounded-lg
     p-20
-    ;
+}
+
+.detail-recommendations {
+  @apply
+    bg-bg-container border border-border-default rounded-lg 
+    p-8;
 }
 
 .detail-synopsis h2 {
@@ -168,6 +222,11 @@ h2 {
     border border-border-default bg-bg-input
     text-text-muted
     ;
+}
+
+.recommendations-cards {
+  @apply
+    flex
 }
 
 </style>
