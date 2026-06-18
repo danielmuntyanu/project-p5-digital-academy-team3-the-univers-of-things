@@ -1,10 +1,9 @@
-import { describe, test, expect, beforeEach } from 'vitest'
+import { describe, test, expect, beforeEach, vi } from 'vitest'
 import { setActivePinia, createPinia } from 'pinia'
 import { useAuthStore } from '../../stores/auth'
 
 describe('useAuthStore', () => {
   beforeEach(() => {
-    // Crea una instancia limpia de Pinia antes de cada test
     setActivePinia(createPinia())
   })
 

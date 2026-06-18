@@ -15,8 +15,8 @@ const auth = useAuthStore()
 
       <!-- Sin registrar -->
       <div v-if="!auth.isLoggedIn" class="header-actions">
-        <button class="header-btn-login">Login</button>
-        <button class="header-btn-register">Registro</button>
+        <RouterLink to="/Login" class="header-btn-login">Login</RouterLink>
+        <RouterLink to="/register" class="header-btn-register">Register</RouterLink>
       </div>
 
       <!-- Registrado -->

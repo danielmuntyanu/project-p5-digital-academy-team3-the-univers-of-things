@@ -124,7 +124,7 @@
 }
 
 .login-stat {
-  @apply flex flex-col rounded-xl px-5 py-3 bg-black;
+  @apply flex flex-col rounded-xl px-5 py-3 bg-black bg-opacity-50;
 }
 
 .login-stat-number {
