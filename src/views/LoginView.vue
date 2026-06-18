@@ -4,7 +4,11 @@
   <div class="login-page">
     <!-- Lado izquierdo: imagen + texto -->
     <div class="login-left">
-      <img src="#" alt="Background" class="login-bg-img" />
+      <img
+        src="https://img.freepik.com/premium-photo/mastering-smooth-gradient-backgrounds-techniques-tips-digital-artists_953733-26405.jpg"
+        alt="Background"
+        class="login-bg-img"
+      />
       <div class="login-left-content">
         <h1 class="login-hero-title">
           Your gateway to the <span class="login-hero-highlight">ultimate</span> collection.
@@ -30,7 +34,6 @@
     <div class="login-right">
       <!-- Logo -->
       <div class="login-logo">
-        <div class="login-logo-icon">⚡</div>
         <span class="login-logo-text">Nexus Anime</span>
       </div>
 
@@ -45,7 +48,7 @@
         <div class="login-field">
           <label class="login-label">Email Address</label>
           <div class="login-input-wrap">
-            <input type="email" placeholder="collect@nexus.com" class="login-input" />
+            <input type="email" placeholder="anime@nexus.com" class="login-input" />
             <span class="login-input-icon">✉</span>
           </div>
         </div>
@@ -151,7 +154,7 @@
 
 .login-logo-text {
   @apply text-2xl font-extrabold text-text-brand;
-  text-shadow: 0 0 18px rgba(0, 240, 255, 0.4);
+  text-shadow: 0 0 9px rgba(0, 240, 255, 0.4);
 }
 
 /* Tabs */
