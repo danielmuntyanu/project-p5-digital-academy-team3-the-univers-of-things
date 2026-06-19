@@ -1,6 +1,7 @@
 import { ref, computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import getProducts from '../api/get-products'
+import sleep from '../services/utils/sleep'
 
 export const useProductsStore = defineStore('products', () => {
   
@@ -16,21 +17,25 @@ export const useProductsStore = defineStore('products', () => {
   }
 
   async function callMore(totalProducts = 200) {
-    // Helper for waiting between requests
-    function wait(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms))
-    }
-
     const pagesCount = Math.ceil(totalProducts / 25) - 1;
 
-
+    let newData;
     for (let i = 1; i <= pagesCount; i++) {
-      products.value = [...products.value, ...(await getProducts(i + 1))];
+      newData = await getProducts(i + 1);
+      if (!newData || !newData.length) {
+        console.log("No more data in this API query.");
+        console.log(`Donloaded products total: ${products.value?.length}`);
+        
+        return;
+      };
+      
+      products.value = [...products.value, ...newData];
       console.log(`${i} of ${pagesCount} added`);
-      await wait(1000)
+      await sleep(1000)
     }
 
-
+    console.log(`Donloaded products total: ${products.value?.length}`);
+    
   }
 
   return { products, call, callMore }

@@ -3,7 +3,7 @@ import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import getAnimeById from '../api/product-by-id.js';
 import ProductCard from '../components/ProductCard.vue';
-import getAnimeByGenre from '../services/product-by-genre.js';
+import getAnimeByGenre from '../api/product-by-genre.js';
 
 
 const route = useRoute()

@@ -27,7 +27,7 @@
     onMounted( async () => {
         noItemsMessage.value = "Loading...";
         await call();
-        callMore(200); 
+        callMore(500); 
         noItemsMessage.value = "No items found";
     });
 
@@ -63,6 +63,16 @@
             (item) => item.genres?.map(
                 (genre) => result.add(genre.name)
             )
+        )
+        
+        const toRemove = new Set([
+            "Gourmet", "Award Winning",
+            "Ecchi", "Boys Love", 
+            "Avant Garde"
+        ])
+
+        result = new Set(
+            [...result].filter((item) => !toRemove.has(item))
         )
 
         return [...result];
