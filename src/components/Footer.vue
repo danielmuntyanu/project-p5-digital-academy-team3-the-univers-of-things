@@ -57,8 +57,8 @@ const subscribe = async () => {
       <div class="footer-col">
         <h4 class="footer-col-title">Navigation</h4>
         <ul class="footer-links">
-          <li><a href="#" class="footer-link">Marketplace</a></li>
-          <li><a href="#" class="footer-link">Live Auctions</a></li>
+          <li><a href="/" class="footer-link">Home</a></li>
+          <li><a href="#" class="footer-link">Dashboard</a></li>
           <li><a href="#" class="footer-link">Anime Calendar</a></li>
           <li><a href="#" class="footer-link">Community Hub</a></li>
         </ul>
