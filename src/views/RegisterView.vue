@@ -1,10 +1,17 @@
-<script setup></script>
+<script setup>
+import RegisterForm from '@/components/RegisterForm.vue';
+
+</script>
 
 <template>
   <div class="login-page">
     <!-- Lado izquierdo: imagen + texto -->
     <div class="login-left">
-      <img src="#" alt="Background" class="login-bg-img" />
+      <img
+        src="https://img.freepik.com/premium-photo/mastering-smooth-gradient-backgrounds-techniques-tips-digital-artists_953733-26405.jpg"
+        alt="Background"
+        class="login-bg-img"
+      />
       <div class="login-left-content">
         <h1 class="login-hero-title">
           Your gateway to the <span class="login-hero-highlight">ultimate</span> collection.
@@ -30,44 +37,18 @@
     <div class="login-right">
       <!-- Logo -->
       <div class="login-logo">
-        <div class="login-logo-icon">⚡</div>
         <span class="login-logo-text">Nexus Anime</span>
       </div>
 
       <!-- Tabs -->
       <div class="login-tabs">
-        <a href="#" class="login-tab login-tab--active">Sign In</a>
-        <a href="#" class="login-tab">Create Account</a>
+        <RouterLink to="/login" class="login-tab">Sign In</RouterLink>
+        <RouterLink to="/register" class="login-tab login-tab--active">Create Account</RouterLink>
       </div>
 
       <!-- Formulario -->
-      <div class="login-form">
-        <div class="login-field">
-          <label class="login-label">Email Address</label>
-          <div class="login-input-wrap">
-            <input type="email" placeholder="collect@nexus.com" class="login-input" />
-            <span class="login-input-icon">✉</span>
-          </div>
-        </div>
-
-        <div class="login-field">
-          <div class="login-field-header">
-            <label class="login-label">Password</label>
-            <a href="#" class="login-forgot">Forgot password?</a>
-          </div>
-          <div class="login-input-wrap">
-            <input type="password" placeholder="••••••••" class="login-input" />
-            <span class="login-input-icon">🔒</span>
-          </div>
-        </div>
-
-        <div class="login-remember">
-          <input type="checkbox" id="remember" class="login-checkbox" />
-          <label for="remember" class="login-remember-label">Stay signed in for 30 days</label>
-        </div>
-
-        <a href="#" class="login-submit"> Access The Nexus → </a>
-      </div>
+       <RegisterForm />
+      
 
       <!-- Footer del formulario -->
       <div class="login-form-footer">
@@ -124,7 +105,7 @@
 }
 
 .login-stat {
-  @apply flex flex-col rounded-xl px-5 py-3 bg-black/50;
+  @apply flex flex-col rounded-xl px-5 py-3 bg-black;
 }
 
 .login-stat-number {
@@ -151,7 +132,7 @@
 
 .login-logo-text {
   @apply text-2xl font-extrabold text-text-brand;
-  text-shadow: 0 0 18px rgba(0, 240, 255, 0.4);
+  text-shadow: 0 0 9px rgba(0, 240, 255, 0.4);
 }
 
 /* Tabs */
@@ -165,55 +146,6 @@
 
 .login-tab--active {
   @apply text-text-brand border-b-2 border-border-brand;
-}
-
-/* Formulario */
-.login-form {
-  @apply flex flex-col gap-5;
-}
-
-.login-field {
-  @apply flex flex-col gap-1.5;
-}
-
-.login-field-header {
-  @apply flex items-center justify-between;
-}
-
-.login-label {
-  @apply text-sm text-text-default font-medium;
-}
-
-.login-forgot {
-  @apply text-sm text-text-brand no-underline hover:opacity-80 transition-opacity;
-}
-
-.login-input-wrap {
-  @apply relative;
-}
-
-.login-input {
-  @apply w-full bg-bg-input border border-border-default rounded-lg px-4 py-3 text-sm text-text-default placeholder:text-text-muted outline-none focus:border-border-brand transition-colors pr-10;
-}
-
-.login-input-icon {
-  @apply absolute right-3 top-1/2 -translate-y-1/2 text-text-muted text-sm;
-}
-
-.login-remember {
-  @apply flex items-center gap-2;
-}
-
-.login-checkbox {
-  @apply w-4 h-4 accent-bg-brand;
-}
-
-.login-remember-label {
-  @apply text-sm text-text-muted;
-}
-
-.login-submit {
-  @apply block w-full py-3 rounded-xl text-center font-bold text-text-on-brand no-underline bg-bg-brand hover:bg-bg-brand-hover transition-colors;
 }
 
 /* Footer del form */

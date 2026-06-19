@@ -36,9 +36,7 @@ onMounted(async () => {
         <p v-if="anime.title_english" class="featured-anime-subtitle">{{ anime.title_english }}</p>
 
         <p class="featured-synopsis">{{ anime.synopsis }}</p>
-        <AddToFavoritesBtn>
-          
-        </AddToFavoritesBtn>
+        <AddToFavoritesBtn :productId="anime.mal_id" />
       </div>
     </div>
   </section>

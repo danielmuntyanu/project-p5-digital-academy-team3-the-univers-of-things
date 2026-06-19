@@ -1,27 +1,15 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/auth-store'
-
-const router = useRouter();
-const authStore = useAuthStore();
-const { login } = authStore;
 
 const username = ref('')
 const password = ref('')
+const fullname = ref('')
 
 async function submitHandler() {
-  console.log('LOGIN CONNECTED')
+  console.log('REGISTER CONNECTED')
   console.log(`Username: ${username.value}`);
   console.log(`Password: ${password.value}`);
-
-  try {
-    await login(username.value, password.value);
-    
-    router.push('/')
-  } catch (error) {
-    console.log(error);
-  }
+  console.log(`Fullname: ${fullname.value}`);
 }
 </script>
 
@@ -32,6 +20,14 @@ async function submitHandler() {
       <label class="login-label">Email Address</label>
       <div class="login-input-wrap">
         <input v-model="username" type="email" placeholder="anime@nexus.com" class="login-input" />
+        <span class="login-input-icon">✉</span>
+      </div>
+    </div>
+
+    <div class="login-field">
+      <label class="login-label">Full Name</label>
+      <div class="login-input-wrap">
+        <input v-model="fullname" type="text" placeholder="Naruto Udzumaki" class="login-input" />
         <span class="login-input-icon">✉</span>
       </div>
     </div>

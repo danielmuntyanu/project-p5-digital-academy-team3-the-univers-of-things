@@ -4,14 +4,30 @@
   import Header from './components/Header.vue';
   import Footer from './components/Footer.vue';
 
+  import { storeToRefs } from 'pinia'
+  import { useAuthStore } from './stores/auth-store.js';
+
+  const { isLoading } = storeToRefs(useAuthStore());
+
 </script>
 
 <template>
-  <Header />
+  <template v-if="isLoading">
+    <div class="min-h-screen flex flex-col justify-center items-center">
+      <h1 class="text-center">Loading...</h1>
+    </div>
+    
 
-  <RouterView />
+  </template>
 
-  <Footer />
+  <template v-else>
+    <Header />
+
+    <RouterView />
+
+    <Footer />
+  </template>
+  
 </template>
 
 <style>

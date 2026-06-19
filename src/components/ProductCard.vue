@@ -1,5 +1,6 @@
 <script setup>
 import { Star, Heart } from 'lucide-vue-next';
+import AddToFavoritesBtn from './AddToFavoritesBtn.vue';
 
 const props = defineProps([
     "id", "imgUrl", "title",
@@ -19,10 +20,7 @@ const props = defineProps([
                 <Star :size="12" fill="currentColor" :strokeWidth="2" /> {{ score }}
             </div>
 
-            <!-- TODO: Move this to component AddFavotiteButton -->
-            <div class="favorite">
-                <Heart :size="24" :fill="true ? 'none' : 'currentColor'" :strokeWidth="2" />
-            </div>
+            <AddToFavoritesBtn size="sm" :productId="id"/>
         </div>
 
         
@@ -76,20 +74,6 @@ const props = defineProps([
     ;
 }
 
-.favorite {
-    @apply
-        absolute top-4 left-4 rounded-full
-        w-10 h-10 shadow-lg
-        bg-bg-container text-text-default
-        border border-border-default
-        flex justify-center items-center
-
-        transition-all duration-300
-        hover:text-text-brand hover:border-border-brand
-        active:bg-bg-brand active:text-text-on-brand
-    ;
-}
-
 .favorite_active {
     @apply
         text-text-brand bg-bg-brand-darker border-border-brand shadow-md
@@ -136,6 +120,7 @@ const props = defineProps([
         border border-border-default bg-bg-input
     ;
 }
+
 .bottom_container {
     @apply 
         w-full flex flex-row justify-between items-center

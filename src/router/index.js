@@ -1,5 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import { useAuthStore } from '@/stores/auth-store.js';
+import HomeView from '../views/HomeView.vue';
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,15 +22,21 @@ const router = createRouter({
       component: () => import('../views/LoginView.vue'),
     },
     {
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/RegisterView.vue'),
+    },
+    {
       path: '/user-dashboard',
       name: 'user-dashboard',
       component: () => import('../views/UserDashboardView.vue'),
+      meta: { requiresAuth: true }
     },
     {
       path: '/admin-dashboard',
       name: 'admin-dashboard',
       component: () => import('../views/AdminDashboardView.vue'),
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/:pathMatch(.*)*',
@@ -39,10 +47,16 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from) => {
-  // const store = useAuthStore();
-  // if (to.meta.requiresAuth && !store.user.isAuthenticated) {
-  //   return { name: "login"};
-  // }
+  
+  const authStore = useAuthStore();
+
+  if (to.meta.requiresAuth && !authStore.user) {
+    return { name: "login"};
+  }
+
+  if (to.meta.requiresAdmin && authStore.userType !== "admin") {
+    return { name: "user-dashboard" };
+  }
 })
 
 export default router
