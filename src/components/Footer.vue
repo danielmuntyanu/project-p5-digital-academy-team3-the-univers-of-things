@@ -1,4 +1,40 @@
-<script setup></script>
+vue
+<script setup>
+import { ref } from 'vue'
+import emailjs from '@emailjs/browser'
+
+const email = ref('')
+const sending = ref(false)
+const message = ref('')
+
+const subscribe = async () => {
+  if (!email.value) return
+
+  sending.value = true
+  message.value = ''
+
+  const name = email.value.split('@')[0]
+
+  try {
+    await emailjs.send(
+      'service_giaco',
+      'template_kp7ycmt',
+      {
+        email: email.value,
+        name: name,
+      },
+      'rH7avbXIjPwOGF2gz',
+    )
+    message.value = '✅ Subscribed!'
+    email.value = ''
+  } catch (err) {
+    console.log('EmailJS error:', err)
+    message.value = '❌ Something went wrong, try again.'
+  } finally {
+    sending.value = false
+  }
+}
+</script>
 
 <template>
   <footer class="footer">
@@ -32,10 +68,19 @@
       <div class="footer-col">
         <h4 class="footer-col-title">Resources</h4>
         <ul class="footer-links">
-          <li><a href="#" class="footer-link">Collection Value Guide</a></li>
-          <li><a href="#" class="footer-link">Seller Protection</a></li>
-          <li><a href="#" class="footer-link">API Documentation</a></li>
-          <li><a href="#" class="footer-link">Knowledge Base</a></li>
+          <li>
+            <a href="https://docs.api.jikan.moe/" target="_blank" class="footer-link"
+              >API Documentation</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://github.com/FactoriaF5-Asturias/project-p5-digital-academy-team3-the-univers-of-things.git"
+              target="_blank"
+              class="footer-link"
+              >GitHub</a
+            >
+          </li>
         </ul>
       </div>
 
@@ -44,9 +89,12 @@
         <h4 class="footer-col-title">Newsletter</h4>
         <p class="footer-newsletter-desc">Subscribe for the latest drops and late anime news.</p>
         <div class="footer-newsletter-form">
-          <input type="email" placeholder="Email address" class="footer-input" />
-          <button class="footer-subscribe-btn">Subscribe</button>
+          <input v-model="email" type="email" placeholder="Email address" class="footer-input" />
+          <button class="footer-subscribe-btn" :disabled="sending" @click="subscribe">
+            {{ sending ? 'Sending...' : 'Subscribe' }}
+          </button>
         </div>
+        <p v-if="message" class="footer-message">{{ message }}</p>
       </div>
     </div>
 
@@ -54,8 +102,6 @@
     <div class="footer-bottom">
       <span class="footer-copy">© 2024 NEXUS ANIME ECOSYSTEM. ALL RIGHTS RESERVED.</span>
       <div class="footer-bottom-links">
-        <a href="#" class="footer-bottom-link">Privacy Policy</a>
-        <a href="#" class="footer-bottom-link">Terms of Service</a>
         <a href="#" class="footer-bottom-link">Cookie Settings</a>
       </div>
     </div>
@@ -126,7 +172,11 @@
 }
 
 .footer-subscribe-btn {
-  @apply bg-bg-container border border-border-default rounded-lg px-4 py-2 text-sm text-text-default hover:border-border-brand transition-colors;
+  @apply bg-bg-container border border-border-default rounded-lg px-4 py-2 text-sm text-text-default hover:border-border-brand transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.footer-message {
+  @apply text-xs text-text-muted;
 }
 
 /* Barra inferior */

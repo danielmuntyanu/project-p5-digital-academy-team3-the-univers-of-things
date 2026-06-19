@@ -12,6 +12,7 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@tailwindcss/vite": "^4.3.0",
     "autoprefixer": "^10.5.0",
     "lucide-vue-next": "^1.0.0",
