@@ -21,6 +21,27 @@ const airedFrom = computed(() => {
   })
 })
 
+const fetchAnime = async (id) => {
+  loading.value = true
+  error.value = null
+
+  try {
+    animeData.value = await getAnimeById(id)
+  } catch (err) {
+    error.value = err.message
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(async () => {
+  fetchAnime(route.params.id)
+})
+
+watch(() => route.params.id, (newId) => {
+  if (newId) fetchAnime(newId)
+})
+
 onMounted(async () => {
   loading.value = true
 
@@ -51,9 +72,11 @@ watch(animeData, async (newData) => {
   recommendations.value = results?.filter(item => item.mal_id !== newData.mal_id) ?? []
   console.log('Final recommendations:', recommendations.value);
   
-})
+})  
 
 const goToDetail = (animeId) => {
+  console.log('Clicked, navigation to:', animeId);
+  
   router.push({ name: 'detail', params: { id: animeId } })
 }
 
@@ -222,16 +245,19 @@ h2 {
     text-text-muted;
 }
 
-.recommendations-cards .container {
+.recommendations-cards :deep(.container) {
   @apply
-    max-h-[400px] w-full;
+    max-h-[400px] w-full
+    hover:scale-105
+    mt-10;
 }
 
 .recommendations-cards {
    @apply grid grid-cols-1
    sm:grid-cols-2
    lg:grid-cols-3
-   gap-4;
+   gap-4
+   cursor-pointer;
 }
 
 </style>

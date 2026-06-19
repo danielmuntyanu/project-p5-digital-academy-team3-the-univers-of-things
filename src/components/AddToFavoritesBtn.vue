@@ -57,7 +57,7 @@
 <template>
     <template v-if="size && size == 'sm'">
         <div 
-            @click="addToFavListener"
+            @click.stop="addToFavListener"
             class="favorite-button-sm"
         >
             <Heart 
