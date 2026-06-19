@@ -20,7 +20,7 @@ const props = defineProps([
                 <Star :size="12" fill="currentColor" :strokeWidth="2" /> {{ score }}
             </div>
 
-            <AddToFavoritesBtn size="sm" :productId="id" @click.stop/>
+            <AddToFavoritesBtn size="sm" :productId="id" @click.stop />
         </div>
 
         
