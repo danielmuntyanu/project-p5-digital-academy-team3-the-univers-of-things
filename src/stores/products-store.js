@@ -27,7 +27,7 @@ export const useProductsStore = defineStore('products', () => {
     for (let i = 1; i <= pagesCount; i++) {
       products.value = [...products.value, ...(await getProducts(i + 1))];
       console.log(`${i} of ${pagesCount} added`);
-      await wait(700)
+      await wait(1000)
     }
 
 
