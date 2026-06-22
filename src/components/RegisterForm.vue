@@ -7,14 +7,13 @@ const fullname = ref('')
 
 async function submitHandler() {
   console.log('REGISTER CONNECTED')
-  console.log(`Username: ${username.value}`);
-  console.log(`Password: ${password.value}`);
-  console.log(`Fullname: ${fullname.value}`);
+  console.log(`Username: ${username.value}`)
+  console.log(`Password: ${password.value}`)
+  console.log(`Fullname: ${fullname.value}`)
 }
 </script>
 
 <template>
-
   <div class="login-form">
     <div class="login-field">
       <label class="login-label">Email Address</label>
@@ -35,7 +34,6 @@ async function submitHandler() {
     <div class="login-field">
       <div class="login-field-header">
         <label class="login-label">Password</label>
-        <a href="#" class="login-forgot">Forgot password?</a>
       </div>
       <div class="login-input-wrap">
         <input v-model="password" type="password" placeholder="••••••••" class="login-input" />
@@ -43,19 +41,12 @@ async function submitHandler() {
       </div>
     </div>
 
-    <div class="login-remember">
-      <input type="checkbox" id="remember" class="login-checkbox" />
-      <label for="remember" class="login-remember-label">Stay signed in for 30 days</label>
-    </div>
-
-    <div @click="submitHandler" class="login-submit"> Access The Nexus → </div>
+    <div @click="submitHandler" class="login-submit">Access The Nexus →</div>
   </div>
-
 </template>
 
 <style scoped>
 @reference "../assets/main.css";
-
 
 .login-form {
   @apply flex flex-col gap-5;
@@ -104,5 +95,4 @@ async function submitHandler() {
 .login-submit {
   @apply block w-full py-3 rounded-xl text-center font-bold text-text-on-brand no-underline bg-bg-brand hover:bg-bg-brand-hover transition-colors;
 }
-
 </style>

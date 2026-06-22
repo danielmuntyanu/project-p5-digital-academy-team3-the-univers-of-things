@@ -2,6 +2,10 @@
 import { useAuthStore } from '../stores/auth-store.js'
 
 const auth = useAuthStore()
+
+function handleLogout() {
+  auth.logout()
+}
 </script>
 
 <template>
@@ -13,6 +17,13 @@ const auth = useAuthStore()
         <span class="header-logo-sub">Anime</span>
       </a>
 
+      <!-- Navegación (solo logueado) -->
+      <nav v-if="auth.isLoggedIn" class="header-nav">
+        <RouterLink to="/dashboard" class="header-btn-nav">Dashboard</RouterLink>
+        <span class="header-nav-divider"></span>
+        <RouterLink to="/favorites" class="header-btn-nav">Favorite List</RouterLink>
+      </nav>
+
       <!-- Sin registrar -->
       <div v-if="!auth.isLoggedIn" class="header-actions">
         <RouterLink to="/Login" class="header-btn-login">Login</RouterLink>
@@ -21,7 +32,14 @@ const auth = useAuthStore()
 
       <!-- Registrado -->
       <div v-else class="header-actions">
-        <button class="header-btn-grid">
+        <button class="header-btn-avatar">
+          <img
+            src="https://api.dicebear.com/7.x/avataaars/svg?seed=nexus"
+            alt="Avatar"
+            class="header-avatar-img"
+          />
+        </button>
+        <button class="header-btn-logout" @click="handleLogout" title="Cerrar sesión">
           <svg
             width="18"
             height="18"
@@ -32,18 +50,10 @@ const auth = useAuthStore()
             stroke-linecap="round"
             stroke-linejoin="round"
           >
-            <rect x="3" y="3" width="7" height="7" />
-            <rect x="14" y="3" width="7" height="7" />
-            <rect x="3" y="14" width="7" height="7" />
-            <rect x="14" y="14" width="7" height="7" />
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
           </svg>
-        </button>
-        <button class="header-btn-avatar">
-          <img
-            src="https://api.dicebear.com/7.x/avataaars/svg?seed=nexus"
-            alt="Avatar"
-            class="header-avatar-img"
-          />
         </button>
       </div>
     </div>
@@ -74,6 +84,14 @@ const auth = useAuthStore()
   @apply text-[0.7rem] font-medium uppercase tracking-widest text-text-muted border-b border-border-brand pb-px;
 }
 
+.header-nav {
+  @apply flex items-center gap-3 mr-auto ml-6;
+}
+
+.header-nav-divider {
+  @apply w-px h-4 bg-border-default opacity-50;
+}
+
 .header-actions {
   @apply flex items-center gap-2;
 }
@@ -86,8 +104,8 @@ const auth = useAuthStore()
   @apply px-4 py-1.5 rounded-lg text-sm font-semibold text-bg-body bg-text-brand hover:opacity-90 transition-opacity;
 }
 
-.header-btn-grid {
-  @apply flex items-center justify-center w-9 h-9 rounded-lg text-text-muted hover:text-text-default hover:bg-bg-container transition-colors;
+.header-btn-nav {
+  @apply px-2 py-1.5 rounded-lg text-sm text-text-muted hover:text-text-default hover:bg-bg-container transition-colors no-underline;
 }
 
 .header-btn-avatar {
@@ -96,5 +114,9 @@ const auth = useAuthStore()
 
 .header-avatar-img {
   @apply w-full h-full object-cover;
+}
+
+.header-btn-logout {
+  @apply flex items-center justify-center w-9 h-9 rounded-lg text-text-muted hover:text-text-default hover:bg-bg-container transition-colors;
 }
 </style>
