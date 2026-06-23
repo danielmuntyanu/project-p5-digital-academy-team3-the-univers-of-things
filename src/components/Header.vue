@@ -1,10 +1,12 @@
 <script setup>
 import { useAuthStore } from '../stores/auth-store.js'
-
+import { useRouter } from 'vue-router'
 const auth = useAuthStore()
+const router = useRouter()
 
-function handleLogout() {
-  auth.logout()
+async function handleLogout() {
+  await auth.logout()
+  router.go(0) // Recarga la página para reflejar el estado de autenticación
 }
 </script>
 

@@ -9,18 +9,26 @@ const { login } = authStore
 
 const username = ref('')
 const password = ref('')
+const errorMessage = ref('')
+const isLoading = ref(false)
+const showPassword = ref(false)
+
+function togglePasswordVisibility() {
+  showPassword.value = !showPassword.value
+}
 
 async function submitHandler() {
-  console.log('LOGIN CONNECTED')
-  console.log(`Username: ${username.value}`)
-  console.log(`Password: ${password.value}`)
+  errorMessage.value = ''
+  isLoading.value = true
 
   try {
     await login(username.value, password.value)
-
     router.push('/')
   } catch (error) {
     console.log(error)
+    errorMessage.value = 'Email o contraseña incorrectos. Inténtalo de nuevo.'
+  } finally {
+    isLoading.value = false
   }
 }
 </script>
@@ -30,7 +38,13 @@ async function submitHandler() {
     <div class="login-field">
       <label class="login-label">Email Address</label>
       <div class="login-input-wrap">
-        <input v-model="username" type="email" placeholder="anime@nexus.com" class="login-input" />
+        <input
+          v-model="username"
+          type="email"
+          placeholder="anime@nexus.com"
+          class="login-input"
+          :class="{ 'login-input-error': errorMessage }"
+        />
         <span class="login-input-icon">✉</span>
       </div>
     </div>
@@ -38,15 +52,31 @@ async function submitHandler() {
     <div class="login-field">
       <div class="login-field-header">
         <label class="login-label">Password</label>
-        <a href="#" class="login-forgot">Forgot password?</a>
       </div>
       <div class="login-input-wrap">
-        <input v-model="password" type="password" placeholder="••••••••" class="login-input" />
-        <span class="login-input-icon">🔒</span>
+        <input
+          v-model="password"
+          :type="showPassword ? 'text' : 'password'"
+          placeholder="••••••••"
+          class="login-input"
+          :class="{ 'login-input-error': errorMessage }"
+        />
+        <button
+          type="button"
+          @click="togglePasswordVisibility"
+          class="login-input-icon login-toggle-password"
+          :aria-label="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+        >
+          {{ showPassword ? '🙈' : '👁' }}
+        </button>
       </div>
     </div>
 
-    <div @click="submitHandler" class="login-submit">Access The Nexus →</div>
+    <p v-if="errorMessage" class="login-error">{{ errorMessage }}</p>
+
+    <button @click="submitHandler" type="button" class="login-submit" :disabled="isLoading">
+      {{ isLoading ? 'Accediendo...' : 'Access The Nexus →' }}
+    </button>
   </div>
 </template>
 
@@ -81,8 +111,20 @@ async function submitHandler() {
   @apply w-full bg-bg-input border border-border-default rounded-lg px-4 py-3 text-sm text-text-default placeholder:text-text-muted outline-none focus:border-border-brand transition-colors pr-10;
 }
 
+.login-input-error {
+  @apply border-red-500 focus:border-red-500;
+}
+
 .login-input-icon {
   @apply absolute right-3 top-1/2 -translate-y-1/2 text-text-muted text-sm;
+}
+
+.login-toggle-password {
+  @apply cursor-pointer hover:opacity-80 transition-opacity bg-transparent border-none p-0;
+}
+
+.login-error {
+  @apply text-sm text-red-500 -mt-1;
 }
 
 .login-remember {
@@ -98,6 +140,6 @@ async function submitHandler() {
 }
 
 .login-submit {
-  @apply block w-full py-3 rounded-xl text-center font-bold text-text-on-brand no-underline bg-bg-brand hover:bg-bg-brand-hover transition-colors;
+  @apply block w-full py-3 rounded-xl text-center font-bold text-text-on-brand no-underline bg-bg-brand hover:bg-bg-brand-hover transition-colors active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed;
 }
 </style>

@@ -1,7 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import { useAuthStore } from '@/stores/auth-store.js';
-import HomeView from '../views/HomeView.vue';
-
+import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/auth-store.js'
+import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,13 +29,13 @@ const router = createRouter({
       path: '/user-dashboard',
       name: 'user-dashboard',
       component: () => import('../views/UserDashboardView.vue'),
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
     },
     {
       path: '/admin-dashboard',
       name: 'admin-dashboard',
       component: () => import('../views/AdminDashboardView.vue'),
-      meta: { requiresAuth: true, requiresAdmin: true }
+      meta: { requiresAuth: true, requiresAdmin: true },
     },
     {
       path: '/:pathMatch(.*)*',
@@ -44,7 +43,7 @@ const router = createRouter({
       component: () => import('../views/NotFoundView.vue'),
     },
   ],
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
     } else {
@@ -54,15 +53,20 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from) => {
-  
-  const authStore = useAuthStore();
+  const authStore = useAuthStore()
 
   if (to.meta.requiresAuth && !authStore.user) {
-    return { name: "login"};
+    return { name: 'login' }
   }
 
-  if (to.meta.requiresAdmin && authStore.userType !== "admin") {
-    return { name: "user-dashboard" };
+  if (to.meta.requiresAdmin && authStore.userType !== 'admin') {
+    return { name: 'user-dashboard' }
+  }
+
+  // Si venimos del login hacia home, forzar recarga completa de la página
+  if (to.name === 'home' && from.name === 'login') {
+    window.location.href = to.fullPath
+    return false
   }
 })
 
