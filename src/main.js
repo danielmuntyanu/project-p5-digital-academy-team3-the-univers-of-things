@@ -6,14 +6,14 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import { useAuthStore } from './stores/auth-store'
-import { useFavoritesStore } from './stores/favorites-store'
+import { useFeaturedStore } from './stores/featured-store'
 
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
 
-const authStore = useAuthStore();
-authStore.initAuth();
+useAuthStore().initAuth();
+await useFeaturedStore().updateFeatured();
 
 app.mount('#app')

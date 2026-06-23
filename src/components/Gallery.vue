@@ -82,8 +82,6 @@
     const router = useRouter()
 
     const goToDetail = (animeId) => {
-        console.log('Gallery click, navigating to:', animeId);
-        
         router.push({ name: 'detail', params: { id: animeId } })
     }
 
@@ -107,7 +105,7 @@
                     @click="goToDetail(item.mal_id)"
                     :id="item.mal_id"
                     :imgUrl="item.images?.jpg?.large_image_url"
-                    :title="item.title"
+                    :title="item.title_english ? item.title_english : item.title"
                     :description="item.synopsis"
                     :score="item.score"
                     :category="item.type"
