@@ -1,6 +1,5 @@
 <script setup>
-import RegisterForm from '@/components/RegisterForm.vue';
-
+import RegisterForm from '@/components/RegisterForm.vue'
 </script>
 
 <template>
@@ -47,14 +46,12 @@ import RegisterForm from '@/components/RegisterForm.vue';
       </div>
 
       <!-- Formulario -->
-       <RegisterForm />
-      
+      <RegisterForm />
 
       <!-- Footer del formulario -->
       <div class="login-form-footer">
         <span class="login-secure">🔒 Secure Server</span>
         <div class="login-form-links">
-          <a href="#" class="login-form-link">Support</a>
           <a href="#" class="login-form-link">Privacy</a>
         </div>
       </div>

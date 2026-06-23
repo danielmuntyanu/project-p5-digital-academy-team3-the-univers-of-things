@@ -1,6 +1,10 @@
 <script setup>
-import { Star, Heart } from 'lucide-vue-next';
+import { ref, onMounted } from 'vue';
+import { Star } from 'lucide-vue-next';
 import AddToFavoritesBtn from './AddToFavoritesBtn.vue';
+import ChangeFeaturedBtn from './ChangeFeaturedBtn.vue';
+import { useAuthStore } from '@/stores/auth-store.js';
+import { storeToRefs } from 'pinia';
 
 const props = defineProps([
     "id", "imgUrl", "title",
@@ -8,6 +12,16 @@ const props = defineProps([
     "category", "genres",
     "episodes"
 ])
+
+const isAdmin = ref(false);
+
+onMounted(() => {
+    const authStore = useAuthStore();
+    const {userType} = storeToRefs(authStore);
+    if (userType.value == "admin") {
+        isAdmin.value = true;
+    }
+});
 
 </script>
 
@@ -20,7 +34,12 @@ const props = defineProps([
                 <Star :size="12" fill="currentColor" :strokeWidth="2" /> {{ score }}
             </div>
 
-            <AddToFavoritesBtn size="sm" :productId="id" @click.stop />
+            <template v-if="isAdmin">
+                <ChangeFeaturedBtn :productId="id" @click.stop />
+            </template>
+            <template v-else>
+                <AddToFavoritesBtn size="sm" :productId="id" @click.stop />
+            </template>
         </div>
 
         

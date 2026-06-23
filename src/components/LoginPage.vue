@@ -73,7 +73,6 @@
       <div class="login-form-footer">
         <span class="login-secure">🔒 Secure Server</span>
         <div class="login-form-links">
-          <a href="#" class="login-form-link">Support</a>
           <a href="#" class="login-form-link">Privacy</a>
         </div>
       </div>

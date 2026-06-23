@@ -1,32 +1,31 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth-store'
 
-const router = useRouter();
-const authStore = useAuthStore();
-const { login } = authStore;
+const router = useRouter()
+const authStore = useAuthStore()
+const { login } = authStore
 
 const username = ref('')
 const password = ref('')
 
 async function submitHandler() {
   console.log('LOGIN CONNECTED')
-  console.log(`Username: ${username.value}`);
-  console.log(`Password: ${password.value}`);
+  console.log(`Username: ${username.value}`)
+  console.log(`Password: ${password.value}`)
 
   try {
-    await login(username.value, password.value);
-    
+    await login(username.value, password.value)
+
     router.push('/')
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 }
 </script>
 
 <template>
-
   <div class="login-form">
     <div class="login-field">
       <label class="login-label">Email Address</label>
@@ -47,19 +46,12 @@ async function submitHandler() {
       </div>
     </div>
 
-    <div class="login-remember">
-      <input type="checkbox" id="remember" class="login-checkbox" />
-      <label for="remember" class="login-remember-label">Stay signed in for 30 days</label>
-    </div>
-
-    <div @click="submitHandler" class="login-submit"> Access The Nexus → </div>
+    <div @click="submitHandler" class="login-submit">Access The Nexus →</div>
   </div>
-
 </template>
 
 <style scoped>
 @reference "../assets/main.css";
-
 
 .login-form {
   @apply flex flex-col gap-5;
@@ -108,5 +100,4 @@ async function submitHandler() {
 .login-submit {
   @apply block w-full py-3 rounded-xl text-center font-bold text-text-on-brand no-underline bg-bg-brand hover:bg-bg-brand-hover transition-colors;
 }
-
 </style>

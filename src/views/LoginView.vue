@@ -1,9 +1,8 @@
 <script setup>
-import { useRouter } from 'vue-router';
-import LoginForm from '@/components/LoginForm.vue';
+import { useRouter } from 'vue-router'
+import LoginForm from '@/components/LoginForm.vue'
 
-const router = useRouter();
-
+const router = useRouter()
 </script>
 
 <template>
@@ -56,7 +55,6 @@ const router = useRouter();
       <div class="login-form-footer">
         <span class="login-secure">🔒 Secure Server</span>
         <div class="login-form-links">
-          <a href="#" class="login-form-link">Support</a>
           <a href="#" class="login-form-link">Privacy</a>
         </div>
       </div>

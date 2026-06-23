@@ -1,18 +1,16 @@
 // AQUI PUEDES CAMBIAR EL ID PARA MOSTRAR OTRO ANIME (Sistema de admin en sprint 2)
 import sleep from "@/services/utils/sleep";
 
-const FEATURED_ANIME_ID = 22 // Cowboy Bebop
-
-export default async function getFeatured() {
+export default async function getFeatured(featuredId) {
   try {
-    const URI = `https://api.jikan.moe/v4/anime/${FEATURED_ANIME_ID}`
+    const URI = `https://api.jikan.moe/v4/anime/${featuredId}`
 
     const response = await fetch(URI)
 
     // If error "Too Many Requests" repeat this function after a second
     if (response.status == 429) {
       await sleep(1000);
-      return await getFeatured();
+      return await getFeatured(featuredId);
     }
 
     if (!response.ok) {

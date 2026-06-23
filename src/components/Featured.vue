@@ -1,20 +1,26 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import getFeatured from '../api/get-featured';
+import { ref, onMounted, computed, reactive } from 'vue';
 import AddToFavoritesBtn from '../components/AddToFavoritesBtn.vue';
-import { Sparkles } from 'lucide-vue-next';
+import { useFeaturedStore } from '@/stores/featured-store';
+import { storeToRefs } from 'pinia';
 
-const anime = ref(null);
+const featuredStore = useFeaturedStore();
+const { featuredData } = storeToRefs(featuredStore);
+const { call } = featuredStore;
+
+const anime = computed(() => {
+  return featuredData.value;
+});
+
 const loading = ref(true);
-const error = ref(null);
+const error = computed(() => {
+  if (!anime.value) {
+    return 'No se pudo cargar el anime destacado.';
+  }
+});
 
 onMounted(async () => {
-    const data = await getFeatured();
-    if (data) {
-        anime.value = data;
-    } else {
-        error.value = 'No se pudo cargar el anime destacado.';
-    }
+    await call();
     loading.value = false;
 });
 </script>
@@ -22,7 +28,6 @@ onMounted(async () => {
 <template>
   <section class="featured-section">
     
-
     <p v-if="loading" class="featured-loading">Cargando...</p>
     <p v-else-if="error" class="featured-error">{{ error }}</p>
 
@@ -34,8 +39,8 @@ onMounted(async () => {
       <div class="featured-info">
         <!-- <Sparkles /> -->
         <label class="featured-anime-badge"for="">Anime de la semana</label>
-        <h3 class="featured-anime-title">{{ anime.title_english }}</h3>
-        <p v-if="anime.title" class="featured-anime-subtitle">{{ anime.title }}</p>
+        <h3 class="featured-anime-title">{{ anime.title_english ? anime.title_english : anime.title }}</h3>
+        <p v-if="anime.title_english" class="featured-anime-subtitle">{{ anime.title_english }}</p>
 
         <p class="featured-synopsis">{{ anime.synopsis }}</p>
         <AddToFavoritesBtn :productId="anime.mal_id" />
