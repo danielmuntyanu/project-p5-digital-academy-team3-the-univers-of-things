@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { Star } from 'lucide-vue-next';
 import AddToFavoritesBtn from './AddToFavoritesBtn.vue';
 import ChangeFeaturedBtn from './ChangeFeaturedBtn.vue';
@@ -14,6 +14,23 @@ const props = defineProps([
 ])
 
 const isAdmin = ref(false);
+
+const genresEdited = computed(() => {
+    let result = new Set(props.genres);
+    
+    const toRemove = new Set([
+        "Gourmet", "Award Winning",
+        "Ecchi", "Boys Love", 
+        "Avant Garde"
+    ])
+
+    result = new Set(
+        [...result].filter((item) => !toRemove.has(item))
+    )
+
+    return [...result];
+})
+
 
 onMounted(() => {
     const authStore = useAuthStore();
@@ -50,7 +67,7 @@ onMounted(() => {
             <!-- <p class="description">{{ description }}</p> -->
 
             <div class="genres_container">
-                <template v-for="(genre, key) in genres" :key="key">
+                <template v-for="(genre, key) in genresEdited" :key="key">
                     <div class="genre">{{ genre }}</div>
                 </template>
             </div>
@@ -117,7 +134,7 @@ onMounted(() => {
 
 .title {
     @apply 
-        text-left w-full text-lg
+        text-left w-full text-lg line-clamp-2
     ;
 }
 
