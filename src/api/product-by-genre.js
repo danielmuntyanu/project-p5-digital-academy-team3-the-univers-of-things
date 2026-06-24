@@ -2,7 +2,7 @@ import sleep from "@/services/utils/sleep";
 
 export default async function getAnimeByGenre(genreId) {
     try {
-        const URI = `https://api.jikan.moe/v4/anime?genres=${genreId}&limit=4&min_score=8.2`
+        const URI = `https://api.jikan.moe/v4/anime?genres=${genreId}&limit=3&min_score=8.2`
         console.log('Fetching:', URI);
         
         const response = await fetch(URI)

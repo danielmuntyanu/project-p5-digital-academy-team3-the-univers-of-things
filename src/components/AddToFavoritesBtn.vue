@@ -91,7 +91,7 @@
     font-family: 'Hanken Grotesk';
     @apply
         flex gap-3 cursor-pointer
-        mr-60 py-3 px-4 rounded-sm
+        py-3 px-4 rounded-sm
         bg-bg-input border border-border-default
         hover:bg-bg-brand-darker
 
