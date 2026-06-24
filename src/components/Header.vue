@@ -50,13 +50,13 @@ async function handleLogout() {
 
       <!-- Registrado -->
       <div v-else class="header-actions">
-        <button class="header-btn-avatar">
+        <RouterLink to="/settings" class="header-btn-avatar">
           <img
             src="https://api.dicebear.com/7.x/avataaars/svg?seed=nexus"
             alt="Avatar"
             class="header-avatar-img"
           />
-        </button>
+        </RouterLink>
         <button class="header-btn-logout" @click="handleLogout" title="Cerrar sesión">
           <svg
             width="18"

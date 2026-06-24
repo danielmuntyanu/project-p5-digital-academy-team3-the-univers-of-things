@@ -1,45 +1,50 @@
 <script setup>
-import { ref, onMounted, computed, reactive } from 'vue';
-import AddToFavoritesBtn from '../components/AddToFavoritesBtn.vue';
-import { useFeaturedStore } from '@/stores/featured-store';
-import { storeToRefs } from 'pinia';
+import { ref, onMounted, computed, reactive } from 'vue'
+import AddToFavoritesBtn from '../components/AddToFavoritesBtn.vue'
+import { useFeaturedStore } from '@/stores/featured-store'
+import { storeToRefs } from 'pinia'
 
-const featuredStore = useFeaturedStore();
-const { featuredData } = storeToRefs(featuredStore);
-const { call } = featuredStore;
+const featuredStore = useFeaturedStore()
+const { featuredData } = storeToRefs(featuredStore)
+const { call } = featuredStore
 
 const anime = computed(() => {
-  return featuredData.value;
-});
+  return featuredData.value
+})
 
-const loading = ref(true);
+const loading = ref(true)
 const error = computed(() => {
   if (!anime.value) {
-    return 'No se pudo cargar el anime destacado.';
+    return 'No se pudo cargar el anime destacado.'
   }
-});
+})
 
 onMounted(async () => {
-    await call();
-    loading.value = false;
-});
+  await call()
+  loading.value = false
+})
 </script>
 
 <template>
   <section class="featured-section">
-    
     <p v-if="loading" class="featured-loading">Cargando...</p>
     <p v-else-if="error" class="featured-error">{{ error }}</p>
 
-    <div v-else-if="anime" class="featured-card"
-    :style="{ backgroundImage: `url(${anime.images?.jpg?.large_image_url || anime.images?.jpg?.image_url})` }">
-      
+    <div
+      v-else-if="anime"
+      class="featured-card"
+      :style="{
+        backgroundImage: `url(${anime.images?.jpg?.large_image_url || anime.images?.jpg?.image_url})`,
+      }"
+    >
       <div class="featured-overlay"></div>
 
       <div class="featured-info">
         <!-- <Sparkles /> -->
-        <label class="featured-anime-badge"for="">Anime de la semana</label>
-        <h3 class="featured-anime-title">{{ anime.title_english ? anime.title_english : anime.title }}</h3>
+        <label class="featured-anime-badge" for="">Anime de la semana</label>
+        <h3 class="featured-anime-title">
+          {{ anime.title_english ? anime.title_english : anime.title }}
+        </h3>
         <p v-if="anime.title_english" class="featured-anime-subtitle">{{ anime.title_english }}</p>
 
         <p class="featured-synopsis">{{ anime.synopsis }}</p>
@@ -56,10 +61,8 @@ onMounted(async () => {
   @apply w-full flex flex-col gap-4 p-6;
 } */
 
-
 .featured-title {
-  @apply
-    font-(family-name:--JetBrains-Mono);
+  @apply font-(family-name:--JetBrains-Mono);
 }
 
 .featured-loading,
@@ -68,34 +71,29 @@ onMounted(async () => {
 }
 
 .featured-card {
-  @apply
-    relative rounded-lg overflow-hidden
+  @apply relative rounded-lg overflow-hidden
     w-full h-190
     bg-cover bg-center;
 }
 
 .featured-anime-badge {
-  @apply
-    bg-bg-special mr-83 pl-5 pt-0.5 pb-0.5 rounded-lg
+  @apply bg-bg-special mr-83 pl-5 pt-0.5 pb-0.5 rounded-lg
     text-[8px] text-[#531900];
 }
 
 .featured-overlay {
-  @apply
-    absolute inset-0;
-    background: linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.5), transparent);
+  @apply absolute inset-0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.5), transparent);
 }
 
 .featured-image {
-  @apply
-    rounded-lg object-cover
+  @apply rounded-lg object-cover
     w-48 h-auto
     bg-none;
 }
 
 .featured-info {
-  @apply 
-    absolute bottom-6 left-6
+  @apply absolute bottom-6 left-6
     flex flex-col gap-3
     z-10 max-w-md
     ml-10;
@@ -121,8 +119,7 @@ onMounted(async () => {
 }
 
 .featured-genre-tag {
-  @apply
-    px-2 py-1 rounded-sm
+  @apply px-2 py-1 rounded-sm
     border border-border-default
     text-sm;
 }
