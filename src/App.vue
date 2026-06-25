@@ -14,7 +14,6 @@
   const {call, callMore} = useProductsStore();
 
   onMounted(async () => {
-    console.log("!!! APP ON MOUNTED !!!");
     
     await call();
     callMore(500);

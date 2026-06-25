@@ -1,7 +1,12 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { Star } from 'lucide-vue-next';
 import { useScoreStore } from '@/stores/score-store';
+import { useAuthStore } from '@/stores/auth-store';
+import { storeToRefs } from 'pinia';
+
+const authStore = useAuthStore()
+const { userType } = storeToRefs(authStore)
 
 const props = defineProps([
     "id"
@@ -13,23 +18,28 @@ const availableRates = ref([
 ])
 
 const chosen = ref(null)
-// const disabled = ref(false)
+const disabled = ref(false)
 const hovered = ref(null)
 const bouncing = ref(null)
 
-const { addScore } = useScoreStore();
+const { addScore, getLocalScore } = useScoreStore();
 
 async function buttonHandler(score) {
+    if (disabled.value) return;
     bouncing.value = score;
-    if (chosen.value === score) {
-        chosen.value = null;
-        hovered.value = null;
-        await addScore(props.id, null);
-        return;
-    }
-    await addScore(props.id, score);
+    await addScore(props.id, score, userType.value);
     chosen.value = score;
+    disabled.value = true;
 }
+
+onMounted(() => {
+    const localScore = getLocalScore(Number(props.id))
+    
+    if(localScore) {
+        disabled.value = true;
+        chosen.value = localScore;
+    }
+})
 
 </script>
 
@@ -43,13 +53,14 @@ async function buttonHandler(score) {
             :key="n" 
             @click="buttonHandler(n)"
             @mouseenter="hovered = n"
-            class="star available"
+            class="star"
+            :class="!disabled ? 'available' : ''"
         >
             <Star 
                 size="18"
                 stroke-width="2"
                 :fill="n <= (hovered !== null ? hovered : (chosen ?? 0)) ? 'currentColor' : 'none'"
-                :class="n === bouncing ? 'pop' : ''"
+                :class="n === bouncing ? 'pop' : '', !disabled ? 'available': ''"
                 @animationend="bouncing = null"
             /> 
         </div>
@@ -63,6 +74,7 @@ async function buttonHandler(score) {
     @apply 
         flex flex-row justify-between items-center
         w-full 
+        my-2
     ;
 }
 
