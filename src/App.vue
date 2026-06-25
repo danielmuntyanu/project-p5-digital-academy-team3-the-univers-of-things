@@ -6,8 +6,17 @@ import Cookiesnogalletas from './components/Cookiesnogalletas.vue'
 
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from './stores/auth-store.js'
+import { onMounted } from 'vue'
+import { userProductsStore } from './stores/user-products-store.js'
 
 const { isLoading } = storeToRefs(useAuthStore())
+
+const { call, callMOre } = userProductsStore()
+
+onMounted(async () => {
+  await call()
+  callMOre(500)
+})
 </script>
 
 <template>
