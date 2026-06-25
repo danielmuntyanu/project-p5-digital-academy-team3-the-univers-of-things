@@ -48,11 +48,6 @@ const subscribe = async () => {
           The world's premier ecosystem for high-end anime collectibles, media discovery, and
           community engagement.
         </p>
-        <div class="footer-icons">
-          <button class="footer-icon-btn">🌐</button>
-          <button class="footer-icon-btn">↗</button>
-          <button class="footer-icon-btn">✉</button>
-        </div>
       </div>
 
       <!-- Columna 2: Navigation -->
