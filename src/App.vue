@@ -11,11 +11,11 @@ import { useProductsStore } from './stores/products-store.js'
 
 const { isLoading } = storeToRefs(useAuthStore())
 
-const { call, callMOre } = useProductsStore()
+const { call, callMore } = useProductsStore()
 
 onMounted(async () => {
   await call()
-  callMOre(500)
+  callMore(500)
 })
 </script>
 
@@ -38,6 +38,4 @@ onMounted(async () => {
 </template>
 
 <style>
-/* Para usar Tailwind con @apply aqui. Cambia la dirección en otras carpetas! */
-/* @reference "./assets/main.css"; */
 </style>

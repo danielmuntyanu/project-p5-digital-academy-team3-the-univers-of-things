@@ -5,8 +5,10 @@ import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
 const auth = useAuthStore()
-const {userType} = storeToRefs(auth)
+const {userType, avatarURL} = storeToRefs(auth)
 const router = useRouter()
+
+
 
 const dashboardLink = computed( () => {
   if (userType.value == "customer") {
@@ -74,7 +76,7 @@ async function handleLogout() {
       <div v-else class="header-actions">
         <RouterLink to="/settings" class="header-btn-avatar">
           <img
-            src="https://api.dicebear.com/7.x/avataaars/svg?seed=nexus"
+            :src="avatarURL"
             alt="Avatar"
             class="header-avatar-img"
           />

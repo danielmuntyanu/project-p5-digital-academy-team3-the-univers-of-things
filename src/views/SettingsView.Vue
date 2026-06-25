@@ -1,34 +1,52 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth-store'
+import { storeToRefs } from 'pinia'
 
 const router = useRouter()
 const authStore = useAuthStore()
 
 // --- Perfil / Avatar ---
-const fullname = ref(authStore.user?.fullName ?? '')
-const avatarUrl = ref(authStore.user?.avatar ?? '')
 const profileMessage = ref('')
 const profileError = ref('')
 const isSavingProfile = ref(false)
 
-function handleAvatarUpload(event) {
-  const file = event.target.files?.[0]
-  if (!file) return
+const { avatarURL, fullName } = storeToRefs(authStore);
+const actualAvatarURL = computed(() => {
+  if (avatarURL.value) {
+    return avatarURL.value;
+  } else {
+    return 'https://api.dicebear.com/7.x/avataaars/svg?seed=nexus';
+  }
+})
+const { updateAvatar, updateFullName } = authStore;
+const avatarError = ref(false);
+const newFullName = ref(fullName.value)
 
-  // TODO: subir el archivo a Firebase Storage (o similar) y actualizar avatarUrl con la URL resultante
-  console.log('Archivo de avatar seleccionado:', file)
+async function handleAvatarUpload(event) {
+  const file = event.target.files?.[0]
+  if (!file) return;
+
+  const result = await updateAvatar(file)
+  if (!result) {
+    avatarError.value = true;
+  } else {
+    avatarError.value = false;
+  }
 }
 
-async function saveProfile() {
+async function saveFullName() {
   profileMessage.value = ''
   profileError.value = ''
   isSavingProfile.value = true
 
   try {
-    // TODO: aquí iría la llamada real, ej:
-    // await authStore.updateProfile({ fullName: fullname.value, avatar: avatarUrl.value })
+    const result = await updateFullName(newFullName.value)
+    
+    if (!result) {
+      throw new Error(`Full Name value is incorrect: ${newFullName.value}`)
+    }
     profileMessage.value = 'Perfil actualizado correctamente.'
   } catch (error) {
     console.log(error)
@@ -137,7 +155,7 @@ async function confirmDeleteAccount() {
 
         <div class="settings-avatar-row">
           <img
-            :src="avatarUrl || 'https://api.dicebear.com/7.x/avataaars/svg?seed=nexus'"
+            :src="actualAvatarURL"
             alt="Avatar"
             class="settings-avatar-img"
           />
@@ -152,13 +170,16 @@ async function confirmDeleteAccount() {
               />
             </label>
             <p class="settings-avatar-hint">PNG o JPG, máximo 2MB.</p>
+            <div class="avatar_error" :class="avatarError ? 'block' : 'hidden'">
+              Error with uploading the avatar. 
+            </div>
           </div>
         </div>
 
         <div class="settings-field">
           <label class="settings-label">Nombre completo</label>
           <input
-            v-model="fullname"
+            v-model="newFullName"
             type="text"
             placeholder="Naruto Udzumaki"
             class="settings-input"
@@ -172,9 +193,9 @@ async function confirmDeleteAccount() {
           type="button"
           class="settings-btn-primary"
           :disabled="isSavingProfile"
-          @click="saveProfile"
+          @click="saveFullName"
         >
-          {{ isSavingProfile ? 'Guardando...' : 'Guardar cambios' }}
+          {{ isSavingProfile ? 'Processing...' : 'Change Full Name' }}
         </button>
       </section>
 
@@ -431,5 +452,9 @@ async function confirmDeleteAccount() {
 
 .settings-modal-actions {
   @apply flex items-center justify-end gap-2 mt-1;
+}
+
+.avatar_error {
+  @apply text-sm text-text-error;
 }
 </style>

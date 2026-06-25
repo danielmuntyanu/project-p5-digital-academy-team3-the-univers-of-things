@@ -7,7 +7,8 @@ import {
   signOut,
   onAuthStateChanged,
 } from 'firebase/auth'
-import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore'
+import uploadAvatar from '@/api/upload-avatar'
 
 export const useAuthStore = defineStore('auth', () => {
   // State
@@ -18,6 +19,12 @@ export const useAuthStore = defineStore('auth', () => {
   const isLoggedIn = computed(() => (user.value ? true : false))
   const userType = computed(() => {
     return user.value?.type
+  })
+  const avatarURL = computed(() => {
+    return user.value?.avatar
+  })
+  const fullName = computed(() => {
+    return user.value?.fullName
   })
 
   // Actions
@@ -55,6 +62,43 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null
   }
 
+  async function updateAvatar(file) {
+    const newAvatarURL = await uploadAvatar(file);
+    if (!avatarURL) {
+      return null;
+    }
+
+    const docRef = doc(db, 'users', user.value.uid);
+    await updateDoc(docRef, {
+      avatar: newAvatarURL,
+    });
+
+    user.value.avatar = newAvatarURL;
+
+    return newAvatarURL;
+
+  }
+
+  async function updateFullName(name) {
+    if (
+      !name ||
+      typeof name != "string" || 
+      name == "" ||
+      name.length > 50
+    ) {
+      return false
+    }
+
+    const docRef = doc(db, 'users', user.value.uid);
+    await updateDoc(docRef, {
+      fullName: name,
+    });
+
+    user.value.fullName = name;
+
+    return true;
+  }
+
   function initAuth() {
     onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
@@ -71,5 +115,10 @@ export const useAuthStore = defineStore('auth', () => {
     })
   }
 
-  return { user, isLoading, register, login, logout, initAuth, isLoggedIn, userType }
+  return {
+    user, isLoading, avatarURL, fullName, 
+    login, logout, initAuth, register,
+    isLoggedIn, userType, 
+    updateAvatar, updateFullName
+  }
 })
