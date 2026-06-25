@@ -1,7 +1,9 @@
-vue
 <script setup>
 import { ref } from 'vue'
 import emailjs from '@emailjs/browser'
+import { useAuthStore } from '@/stores/auth-store'
+
+const auth = useAuthStore()
 
 const email = ref('')
 const sending = ref(false)
@@ -58,8 +60,14 @@ const subscribe = async () => {
         <h4 class="footer-col-title">Navigation</h4>
         <ul class="footer-links">
           <li><a href="/" class="footer-link">Home</a></li>
-          <li><a href="/login" class="footer-link">Login</a></li>
-          <li><a href="/register" class="footer-link">Register</a></li>
+          <template v-if="auth.isLoggedIn">
+            <li><a href="/dashboard" class="footer-link">Dashboard</a></li>
+            <li><a href="/favorites" class="footer-link">Favorite List</a></li>
+          </template>
+          <template v-else>
+            <li><a href="/login" class="footer-link">Login</a></li>
+            <li><a href="/register" class="footer-link">Register</a></li>
+          </template>
           <li><a href="#" class="footer-link">Community Hub</a></li>
         </ul>
       </div>

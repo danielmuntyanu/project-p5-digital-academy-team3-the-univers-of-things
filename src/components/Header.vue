@@ -19,11 +19,33 @@ async function handleLogout() {
         <span class="header-logo-sub">Anime</span>
       </a>
 
-      <!-- Navegación (solo logueado) -->
-      <nav v-if="auth.isLoggedIn" class="header-nav">
-        <RouterLink to="/dashboard" class="header-btn-nav">Dashboard</RouterLink>
-        <span class="header-nav-divider"></span>
-        <RouterLink to="/favorites" class="header-btn-nav">Favorite List</RouterLink>
+      <!-- Navegación -->
+      <nav class="header-nav">
+        <RouterLink v-if="auth.isLoggedIn" to="/dashboard" class="header-btn-nav"
+          >Dashboard</RouterLink
+        >
+        <span v-if="auth.isLoggedIn" class="header-nav-divider"></span>
+
+        <RouterLink to="/" class="header-btn-home" title="Inicio">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+        </RouterLink>
+
+        <span v-if="auth.isLoggedIn" class="header-nav-divider"></span>
+        <RouterLink v-if="auth.isLoggedIn" to="/favorites" class="header-btn-nav"
+          >Favorite List</RouterLink
+        >
       </nav>
 
       <!-- Sin registrar -->
@@ -70,11 +92,11 @@ async function handleLogout() {
 }
 
 .header-inner {
-  @apply max-w-7xl mx-auto px-6 h-[60px] flex items-center justify-between;
+  @apply max-w-7xl mx-auto px-6 h-[60px] grid grid-cols-3 items-center;
 }
 
 .header-logo {
-  @apply flex items-baseline gap-2 no-underline;
+  @apply flex items-baseline gap-2 no-underline justify-self-start;
 }
 
 .header-logo-title {
@@ -87,7 +109,7 @@ async function handleLogout() {
 }
 
 .header-nav {
-  @apply flex items-center gap-3 mr-auto ml-6;
+  @apply flex items-center gap-3 justify-self-center;
 }
 
 .header-nav-divider {
@@ -95,7 +117,7 @@ async function handleLogout() {
 }
 
 .header-actions {
-  @apply flex items-center gap-2;
+  @apply flex items-center gap-2 justify-self-end;
 }
 
 .header-btn-login {
@@ -108,6 +130,10 @@ async function handleLogout() {
 
 .header-btn-nav {
   @apply px-2 py-1.5 rounded-lg text-sm text-text-muted hover:text-text-default hover:bg-bg-container transition-colors no-underline;
+}
+
+.header-btn-home {
+  @apply flex items-center justify-center w-9 h-9 rounded-lg text-text-muted hover:text-text-brand hover:bg-bg-container transition-colors;
 }
 
 .header-btn-avatar {
