@@ -29,8 +29,8 @@ export const useScoreStore = defineStore('score', () => {
         return result;
     }
 
-    async function addScore (id, scoreVAlue) {
-        if (!id || !scoreVAlue) return
+    async function addScore (id, scoreVAlue, userType) {
+        if (!id || !scoreVAlue || !userType) return;
         
         scoreVAlue = Number(scoreVAlue);
 
@@ -39,15 +39,36 @@ export const useScoreStore = defineStore('score', () => {
             { scores: arrayUnion(scoreVAlue)},
             { merge: true }
         )
+
+        // LOCAL STORAGE
+        const userScoresEnLocal = JSON.parse(
+            localStorage.getItem("user-scores") || '[]'
+        );
+
+        const curAnimeIndex = userScoresEnLocal.findIndex((item)=> item.id == id)
+        if (curAnimeIndex != -1) {
+            userScoresEnLocal[curAnimeIndex].score = scoreVAlue;
+        } else {
+            userScoresEnLocal.push({
+                id: id,
+                score: scoreVAlue
+            });
+        }
+    
+        localStorage.setItem("user-scores", JSON.stringify(
+            userScoresEnLocal
+        ));
+    }
+
+    function getLocalScore(id) {
+        // return score value or undefined, check with (!getLocalScore(animeId))
+        const localScoresList = JSON.parse(localStorage.getItem("user-scores") || '[]');
+        if (!localScoresList.length) return null;
+
+        const animeItem = localScoresList.find((item) => id == item.id);
+        return animeItem?.score;
     }
     
-    return {calculateScore, addScore}
+    return {calculateScore, addScore, getLocalScore}
 
 });
-
-
-
-
-
-
-

@@ -140,6 +140,6 @@ onMounted(async () => {
 
 .button-container {
   @apply
-    flex gap-20
+    flex gap-4
 }
 </style>
