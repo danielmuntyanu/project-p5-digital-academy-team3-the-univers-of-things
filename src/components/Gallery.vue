@@ -18,11 +18,13 @@
     const pagCurrentPage = ref(0);
 
     const productsStore = useProductsStore();
-    const { products } = storeToRefs(productsStore);
+    const { products, api_error } = storeToRefs(productsStore);
 
     const noItemsMessage = computed( () => {
         if (!products?.value) {
             return "Loading...";
+        } else if (api_error.value) {
+            return "API error occured!"
         } else {
             return "No items found";
         }

@@ -7,6 +7,7 @@ export const useProductsStore = defineStore('products', () => {
   
   // State = data
   const products = ref([]);
+  const api_error = ref(null)
 
   // Getters
   
@@ -38,5 +39,5 @@ export const useProductsStore = defineStore('products', () => {
     
   }
 
-  return { products, call, callMore }
+  return { products, call, callMore, api_error }
 })

@@ -11,11 +11,20 @@ import { useProductsStore } from './stores/products-store.js'
 
 const { isLoading } = storeToRefs(useAuthStore())
 
-const { call, callMore } = useProductsStore()
+const productsStore = useProductsStore()
+const {api_error} = storeToRefs(productsStore);
+const { call, callMore } = productsStore;
 
 onMounted(async () => {
-  await call()
-  callMore(500)
+  try {
+    await call()
+    callMore(500)
+  } catch (error) {
+    console.log(`Error in App.vue onMounted(): ${error}`);
+    api_error.value = error;
+  }
+  
+  
 })
 </script>
 
