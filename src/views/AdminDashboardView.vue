@@ -1,8 +1,12 @@
 <script setup>
+import UsersList from '@/components/UsersList.vue';
+
 </script>
 
 <template>
   <h1>Admin Dashboard Page</h1>
+
+  <UsersList />
 
 </template>
 

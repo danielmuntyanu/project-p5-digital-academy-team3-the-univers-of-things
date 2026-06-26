@@ -38,17 +38,18 @@ const router = createRouter({
       meta: { requiresAuth: true, requiresAdmin: true },
     },
     {
-      path: '/:pathMatch(.*)*',
-      name: 'notFound',
-      component: () => import('../views/NotFoundView.vue'),
-    },
-
-    {
       path: '/settings',
       name: 'settings',
       component: () => import('../views/SettingsView.vue'),
       meta: { requiresAuth: true },
     },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'notFound',
+      component: () => import('../views/NotFoundView.vue'),
+    },
+
+ 
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
@@ -59,8 +60,10 @@ const router = createRouter({
   },
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach( async (to, from) => {
   const authStore = useAuthStore()
+
+  await authStore.authReady
 
   if (to.meta.requiresAuth && !authStore.user) {
     return { name: 'login' }

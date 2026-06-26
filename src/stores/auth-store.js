@@ -9,7 +9,7 @@ import {
   reauthenticateWithCredential,
   deleteUser
 } from 'firebase/auth'
-import { doc, setDoc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore'
+import { doc, setDoc, getDoc, updateDoc, deleteDoc, Timestamp } from 'firebase/firestore'
 import uploadAvatar from '@/api/upload-avatar'
 
 export const useAuthStore = defineStore('auth', () => {
@@ -40,6 +40,7 @@ export const useAuthStore = defineStore('auth', () => {
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=nexus',
       favorites: [],
       blackListed: false,
+      registerDate: Timestamp.now()
     })
 
     user.value = credential.user
@@ -56,6 +57,7 @@ export const useAuthStore = defineStore('auth', () => {
       type: userData.type,
       avatar: userData.avatar,
       blackListed: userData.blackListed,
+      registerDate: userData.registerDate?.toDate()
     }
   }
 
@@ -101,6 +103,12 @@ export const useAuthStore = defineStore('auth', () => {
     return true;
   }
 
+
+  let authReadyResolve;
+  const authReady = new Promise(resolve => {
+    authReadyResolve = resolve;
+  })
+
   function initAuth() {
     onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
@@ -111,9 +119,12 @@ export const useAuthStore = defineStore('auth', () => {
           ...firebaseUser,
           ...userData,
         }
+      } else {
+        user.value = null;
       }
 
-      isLoading.value = false
+      isLoading.value = false;
+      authReadyResolve();
     })
   }
 
@@ -148,6 +159,7 @@ export const useAuthStore = defineStore('auth', () => {
     login, logout, initAuth, register,
     isLoggedIn, userType, 
     updateAvatar, updateFullName,
-    changePassword, deleteAccount
+    changePassword, deleteAccount,
+    authReady
   }
 })
