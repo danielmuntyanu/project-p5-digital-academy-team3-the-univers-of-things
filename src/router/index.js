@@ -38,17 +38,23 @@ const router = createRouter({
       meta: { requiresAuth: true, requiresAdmin: true },
     },
     {
-      path: '/:pathMatch(.*)*',
-      name: 'notFound',
-      component: () => import('../views/NotFoundView.vue'),
-    },
-
-    {
       path: '/settings',
       name: 'settings',
       component: () => import('../views/SettingsView.vue'),
       meta: { requiresAuth: true },
     },
+    {
+      path: '/favorites',
+      name: 'favorites',
+      component: () => import('../views/FavoritesView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'notFound',
+      component: () => import('../views/NotFoundView.vue'),
+    },
+
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
