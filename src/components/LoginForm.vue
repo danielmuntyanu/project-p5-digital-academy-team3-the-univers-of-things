@@ -40,6 +40,7 @@ async function submitHandler() {
       <div class="login-input-wrap">
         <input
           v-model="username"
+          id="loginUsername"
           type="email"
           placeholder="anime@nexus.com"
           class="login-input"
@@ -56,6 +57,7 @@ async function submitHandler() {
       <div class="login-input-wrap">
         <input
           v-model="password"
+          id="loginPassword"
           :type="showPassword ? 'text' : 'password'"
           placeholder="••••••••"
           class="login-input"
@@ -74,7 +76,13 @@ async function submitHandler() {
 
     <p v-if="errorMessage" class="login-error">{{ errorMessage }}</p>
 
-    <button @click="submitHandler" type="button" class="login-submit" :disabled="isLoading">
+    <button 
+      @click="submitHandler" 
+      id="loginSubmit"
+      type="button" 
+      class="login-submit" 
+      :disabled="isLoading"
+    >
       {{ isLoading ? 'Accediendo...' : 'Access The Nexus →' }}
     </button>
   </div>
