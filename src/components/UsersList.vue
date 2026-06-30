@@ -7,6 +7,8 @@ const customerStore = useCustomersStore();
 const {updateCustomersList, addBlacklisted, removeBlacklisted} = customerStore;
 const { customers } = storeToRefs(customerStore);
 
+new Date().toDateString()
+
 onMounted(async () => {
     await updateCustomersList();
 })
@@ -35,7 +37,7 @@ const statusBtnHandler = async (index) => {
                     <th>Email</th>
                     <th>Full Name</th>
                     <th>Create Date</th>
-                    <th>UID</th>
+                    <!-- <th>UID</th> -->
                     <th>Status</th>
                 </tr>
             </thead>
@@ -45,8 +47,8 @@ const statusBtnHandler = async (index) => {
                         <td class="n_column">{{ index }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.fullName }}</td>
-                        <td>{{ item.registerDate }}</td>
-                        <td>{{ item.uid }}</td>
+                        <td>{{ item.createdAt?.toDateString() }}</td>
+                        <!-- <td>{{ item.uid }}</td> -->
                         <td>
                             <button 
                                 id="statusButton"

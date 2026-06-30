@@ -12,10 +12,16 @@ export const useCustomersStore = defineStore("customers", () => {
         
         const querySnapshot = await getDocs(collection(db, "users"))
 
-        customers.value = querySnapshot.docs.map(
+        const customersList = querySnapshot.docs.filter(
+            doc => doc.data().type != "admin"
+        )
+        
+        // querySnapshot.docs
+        customers.value = customersList.map(
             doc => ({
                 uid: doc.id,
-                ...doc.data()
+                ...doc.data(),
+                createdAt: doc.data().registerDate?.toDate()
             })
         )
     }
