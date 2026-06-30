@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
@@ -8,6 +8,8 @@ import { useAuthStore } from '@/stores/auth-store'
 import { storeToRefs } from 'pinia'
 import ProductCard from '../components/ProductCard.vue'
 import getAnimeById from '../api/product-by-id.js'
+import PaginationControls from '../components/PaginationControls.vue'
+import { X } from 'lucide-vue-next'
 
 const router = useRouter()
 const favoritesStore = useFavoritesStore()
@@ -18,6 +20,18 @@ const animeList = ref([])
 const loading = ref(false)
 const error = ref(null)
 const animesViewed = ref(0)
+
+const pagCurrentPage = ref(0)
+const itemsPerPage = ref(8)
+
+const paginatedAnimeList = computed (() => {
+    const start = pagCurrentPage.value * itemsPerPage.value
+    return animeList.value.slice(start, start + itemsPerPage.value)
+})
+
+const pagPagesCount = computed(() =>
+    Math.ceil(animeList.value.length / itemsPerPage.value)
+)
 
 onMounted(async () => {
     loading.value = true
@@ -48,6 +62,11 @@ onMounted(async () => {
 
 const goToDetail = (animeId) => {
     router.push({ name: 'detail', params: { id: animeId } })
+}
+
+const removeFromFavorites = async (animeId) => {
+    await favoritesStore.removeFavorite(animeId)
+    animeList.value = animeList.value.filter(anime => anime.mal_id !== animeId)
 }
 </script>
 
@@ -86,7 +105,7 @@ const goToDetail = (animeId) => {
             You have no favorites yet.
         </div>
 
-        <div v-else class="favorites-grid">
+        <!-- <div v-else class="favorites-grid">
             <ProductCard
             v-for="anime in animeList"
             :key="anime.mal_id"
@@ -99,7 +118,38 @@ const goToDetail = (animeId) => {
             :genres="anime.genres?.map(g => g.name)"
             :episodes="anime.episodes"
             @click="goToDetail(anime.mal_id)" />
+        </div> -->
+        <div v-else class="favorites-list">
+            <div v-for="anime in paginatedAnimeList" :key="anime.mal_id" class="favorite-row" @click="goToDetail(anime.mal_id)">
+                <img :src="anime.images?.jpg?.image_url" :alt="anime.title" class="row-image" />
+
+                <div class="row-content">
+                    <h3>{{ anime.title }}</h3>
+                    <div class="row-genres">
+                        <span v-for="genre in anime.genres" :key="genre.mal_id" class="row-genre">
+                            {{ genre.name }}
+                        </span>
+                    </div>
+                    <div class="row-meta">
+                        <span>Episodes: {{ anime.episodes }}</span>
+                        <span>{{ anime.type }}</span>
+                    </div>
+                </div>
+
+                <div class="row-score">
+                    ⭐ {{ anime.score }}
+                </div>
+                <button
+                    @click.stop="removeFromFavorites(anime.mal_id)"
+                    class="remove-btn">
+                        <X :size="18" />
+                </button>
+            </div>
         </div>
+        <PaginationControls
+            v-model="pagCurrentPage"
+            :totalPages="pagPagesCount"
+        />
     </div>
 </template>
 
@@ -138,19 +188,65 @@ const goToDetail = (animeId) => {
 }
 
 .favorites-container {
-    @apply p-8 flex flex-col gap-6;
+    @apply 
+        mt-10 ml-[120.5px] mr-40
 }
 
-.favorites-grid {
-    @apply
-        grid grid-cols-1
-        sm:grid-cols-2
-        lg:grid-cols-4 gap-6
-        cursor-pointer;
+ .favorites-list {
+  @apply
+    flex flex-col gap-4
+    mt-5;
 }
 
-.favorites-grid :deep(.container){
+.favorite-row {
+  @apply
+    flex items-center gap-4 p-4
+    bg-bg-container border border-border-default rounded-lg
+    cursor-pointer hover:bg-bg-brand-darker transition-colors
+    relative;
+}
+
+.row-image {
+  @apply
+    w-20 h-28 object-cover rounded-md shrink-0;
+}
+
+.row-content {
+  @apply
+    flex-1 flex flex-col gap-2;
+}
+
+.row-genres {
+  @apply
+    flex flex-wrap gap-2;
+}
+
+.row-genre {
+  @apply
+    px-2 py-1 text-xs
+    rounded-full border border-border-default bg-bg-input;
+}
+
+.row-meta {
+  @apply
+    flex gap-4 text-sm text-text-muted;
+}
+
+.row-score {
+  @apply
+    shrink-0 text-lg font-bold
+    pr-8;
+}
+
+.remove-btn {
     @apply
-        hover:scale-105
+        w-7 h-7 rounded-full
+        absolute top-2 right-2
+        flex items-center justify-center
+        bg-bg-input border border-border-default
+        text-text-muted
+        hover:text-text-brand hover:border-border-brand
+        transition-colors
+        hover:cursor-pointer;
 }
 </style>
