@@ -9,6 +9,7 @@
   --color-bg-brand-hover: var(--bg-brand-hover);
   --color-bg-special: var(--bg-special);
   --color-bg-special-hover: var(--bg-special-hover);
+  --color-bg-process: var(--bg-process);
 
   --color-text-default: var(--text-default);
   --color-text-brand: var(--text-brand);
@@ -34,6 +35,7 @@
   --bg-brand-hover: #00e9f7;
   --bg-special: #ff5e07;
   --bg-special-hover: #fc7f3c;
+  --bg-process: #ffd500;
 
   --text-default: #dbfcff;
   --text-brand: #00e9f7;

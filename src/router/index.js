@@ -50,6 +50,12 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: '/user-blocked',
+      name: 'user-blocked',
+      component: () => import('../views/UserBlockedView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'notFound',
       component: () => import('../views/NotFoundView.vue'),
@@ -71,6 +77,10 @@ router.beforeEach( async (to, from) => {
 
   await authStore.authReady
 
+  if (to.name != 'user-blocked' && authStore.user?.blackListed) {
+    return { name: 'user-blocked' }
+  }
+
   if (to.meta.requiresAuth && !authStore.user) {
     return { name: 'login' }
   }
@@ -79,6 +89,8 @@ router.beforeEach( async (to, from) => {
     return { name: 'user-dashboard' }
   }
 
+
+ 
   // Si venimos del login hacia home, forzar recarga completa de la página
   if (to.name === 'home' && from.name === 'login') {
     window.location.href = to.fullPath
