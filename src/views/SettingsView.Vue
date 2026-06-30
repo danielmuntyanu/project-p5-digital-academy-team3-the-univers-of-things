@@ -14,9 +14,6 @@ const isSavingProfile = ref(false)
 
 const { avatarURL, fullName } = storeToRefs(authStore);
 
-console.log(`REGISTER DATE: ${authStore.user.value.registerDate.getFullYear()}`);
-
-
 const actualAvatarURL = computed(() => {
   if (avatarURL.value) {
     return avatarURL.value;
