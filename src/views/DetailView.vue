@@ -73,19 +73,17 @@ const recommendations = ref([])
 watch(animeData, async (newData) => {
   if (!newData) return
 
-  const genreId = newData.genres?.[1]?.mal_id
-  if (!genreId) return
-  console.log('Genre ID:', genreId);
-  
+  const filterId = newData.themes?.[0]?.mal_id ?? newData.genres?.[0]?.mal_id
+  if (!filterId) return
 
-  const results = await getAnimeByGenre(genreId)
-  console.log('Recommendations:', results);
-  
+  console.log('Filter ID used:', filterId)
+
+  const results = await getAnimeByGenre(filterId)
+  console.log('Recommendations:', results)
 
   recommendations.value = results?.filter(item => item.mal_id !== newData.mal_id) ?? []
-  console.log('Final recommendations:', recommendations.value);
-  
-})  
+  console.log('Final recommendations:', recommendations.value)
+})
 
 const goToDetail = (animeId) => {
   console.log('Clicked, navigation to:', animeId);
@@ -293,6 +291,7 @@ h2 {
   @apply
     max-h-100 w-full
     hover:scale-105
+    transition-all
     mt-10;
 }
 
