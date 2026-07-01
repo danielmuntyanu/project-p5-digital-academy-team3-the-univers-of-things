@@ -13,7 +13,7 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 
-useAuthStore().initAuth();
-await useFeaturedStore().updateFeatured();
+useAuthStore().initAuth()
+await useFeaturedStore().updateFeatured()
 
 app.mount('#app')

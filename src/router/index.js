@@ -60,8 +60,6 @@ const router = createRouter({
       name: 'notFound',
       component: () => import('../views/NotFoundView.vue'),
     },
-
- 
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
@@ -72,7 +70,7 @@ const router = createRouter({
   },
 })
 
-router.beforeEach( async (to, from) => {
+router.beforeEach(async (to, from) => {
   const authStore = useAuthStore()
 
   await authStore.authReady
@@ -89,8 +87,6 @@ router.beforeEach( async (to, from) => {
     return { name: 'user-dashboard' }
   }
 
-
- 
   // Si venimos del login hacia home, forzar recarga completa de la página
   if (to.name === 'home' && from.name === 'login') {
     window.location.href = to.fullPath
