@@ -25,6 +25,24 @@ onMounted(async () => {
   await call()
   loading.value = false
 })
+
+const videoURL = computed(() => {
+  console.log(anime.value?.trailer?.embed_url);
+  
+
+  return anime.value?.trailer?.embed_url + `&mute=1&loop=1&controls=0&showinfo=0&rel&cc_load_policy=0&modestbranding=1&iv_load_policy=3`  
+})
+
+const featuredStyle = computed(() => {
+    if (videoURL.value) return {}
+    
+    const url = anime.value?.images?.jpg?.large_image_url 
+             || anime.value?.images?.jpg?.image_url
+    
+    if (!url) return {}
+    
+    return { backgroundImage: `url(${url})` }
+})
 </script>
 
 <template>
@@ -32,18 +50,19 @@ onMounted(async () => {
     <p v-if="loading" class="featured-loading">Cargando...</p>
     <p v-else-if="error" class="featured-error">{{ error }}</p>
 
-    <div
-      v-else-if="anime"
-      class="featured-card"
-      :style="{
-        backgroundImage: `url(${anime.images?.jpg?.large_image_url || anime.images?.jpg?.image_url})`,
-      }"
-    >
+    <div v-else-if="anime" class="featured-card" :style="featuredStyle">
+
+      <!-- <iframe v-if="videoURL" class="featured-video" :src="videoURL" width="420" height="315"></iframe> -->
+
+
+      <!-- <div v-else class="featured-image-bg" :style="{
+        backgroundImage: url(imageURL),
+      }"></div> -->
       <div class="featured-overlay"></div>
 
       <div class="featured-info">
         <!-- <Sparkles class="sparkles-badge" /> -->
-        <label class="featured-anime-badge"for="">Anime of the week</label>
+        <label class="featured-anime-badge" for="">Anime of the week</label>
         <h3 class="featured-anime-title">{{ anime.title_english ? anime.title_english : anime.title }}</h3>
         <p v-if="anime.title" class="featured-anime-subtitle">{{ anime.title }}</p>
 
@@ -74,40 +93,28 @@ onMounted(async () => {
 }
 
 .featured-card {
-  @apply relative rounded-lg overflow-hidden
-    w-full h-[400px] md:h-[500px] lg:h-190
-    bg-cover bg-center;
+  @apply relative rounded-lg overflow-hidden w-full h-[400px] md:h-[500px] lg:h-190 bg-cover bg-center;
 }
 
 .featured-anime-badge {
-  @apply bg-bg-special py-0.5 px-4 rounded-lg
-    text-[10px] text-[#531900]
-    mr-60 md:mr-75; 
+  @apply bg-bg-special py-0.5 px-4 rounded-lg text-[10px] text-[#531900] mr-60 md:mr-75;
 }
 
 .featured-overlay {
   @apply absolute inset-0;
   background: absolute inset-0;
-  background: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.92) 0%,
-    rgba(0, 0, 0, 0.75) 50%,
-    rgba(0, 0, 0, 0.4) 100%
-  );
+  background: linear-gradient(to right,
+      rgba(0, 0, 0, 0.92) 0%,
+      rgba(0, 0, 0, 0.75) 50%,
+      rgba(0, 0, 0, 0.4) 100%);
 }
 
 .featured-image {
-  @apply rounded-lg object-cover
-    w-48 h-auto
-    bg-none;
+  @apply rounded-lg object-cover w-48 h-auto bg-none;
 }
 
 .featured-info {
-  @apply absolute bottom-6 left-6
-    flex flex-col gap-3
-    z-10
-    ml-2 md:ml-10
-    max-w-[90%] md:max-w-md;
+  @apply absolute bottom-6 left-6 flex flex-col gap-3 z-10 ml-2 md:ml-10 max-w-[90%] md:max-w-md;
 }
 
 .featured-anime-title {
@@ -120,9 +127,7 @@ onMounted(async () => {
 
 .featured-synopsis {
   font-family: 'Hanken Grotesk';
-  @apply line-clamp-3 md:line-clamp-4 leading-relaxed
-    text-[#b9cacb]
-    mr-0 md:-mr-20;
+  @apply line-clamp-3 md:line-clamp-4 leading-relaxed text-[#b9cacb] mr-0 md:-mr-20;
 }
 
 .featured-genres {
@@ -130,9 +135,14 @@ onMounted(async () => {
 }
 
 .featured-genre-tag {
-  @apply px-2 py-1 rounded-sm
-    border border-border-default
-    text-sm;
+  @apply px-2 py-1 rounded-sm border border-border-default text-sm;
+}
+
+.featured-video {
+  @apply
+    absolute inset-0 w-full h-full
+    object-cover
+    ;
 }
 
 .featured-meta {
@@ -148,9 +158,6 @@ onMounted(async () => {
 }
 
 .button-container {
-  @apply
-    flex flex-col md:flex-row gap-4
+  @apply flex flex-col md:flex-row gap-4
 }
-
-
 </style>
