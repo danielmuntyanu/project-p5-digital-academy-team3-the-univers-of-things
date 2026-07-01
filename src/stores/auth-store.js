@@ -4,10 +4,12 @@ import { auth, db } from '@/firebase'
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signOut, onAuthStateChanged,
-  EmailAuthProvider, updatePassword,
+  signOut,
+  onAuthStateChanged,
+  EmailAuthProvider,
+  updatePassword,
   reauthenticateWithCredential,
-  deleteUser
+  deleteUser,
 } from 'firebase/auth'
 import { doc, setDoc, getDoc, updateDoc, deleteDoc, Timestamp } from 'firebase/firestore'
 import uploadAvatar from '@/api/upload-avatar'
@@ -40,7 +42,7 @@ export const useAuthStore = defineStore('auth', () => {
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=nexus',
       favorites: [],
       blackListed: false,
-      registerDate: Timestamp.now()
+      registerDate: Timestamp.now(),
     })
 
     user.value = credential.user
@@ -59,7 +61,7 @@ export const useAuthStore = defineStore('auth', () => {
       type: userData.type,
       avatar: userData.avatar,
       blackListed: userData.blackListed,
-      registerDate: userData.registerDate?.toDate()
+      registerDate: userData.registerDate?.toDate(),
     }
   }
 
@@ -69,46 +71,39 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function updateAvatar(file) {
-    const newAvatarURL = await uploadAvatar(file);
+    const newAvatarURL = await uploadAvatar(file)
     if (!avatarURL) {
-      return null;
+      return null
     }
 
-    const docRef = doc(db, 'users', user.value.uid);
+    const docRef = doc(db, 'users', user.value.uid)
     await updateDoc(docRef, {
       avatar: newAvatarURL,
-    });
+    })
 
-    user.value.avatar = newAvatarURL;
+    user.value.avatar = newAvatarURL
 
-    return newAvatarURL;
-
+    return newAvatarURL
   }
 
   async function updateFullName(name) {
-    if (
-      !name ||
-      typeof name != "string" || 
-      name == "" ||
-      name.length > 50
-    ) {
+    if (!name || typeof name != 'string' || name == '' || name.length > 50) {
       return false
     }
 
-    const docRef = doc(db, 'users', user.value.uid);
+    const docRef = doc(db, 'users', user.value.uid)
     await updateDoc(docRef, {
       fullName: name,
-    });
+    })
 
-    user.value.fullName = name;
+    user.value.fullName = name
 
-    return true;
+    return true
   }
 
-
-  let authReadyResolve;
-  const authReady = new Promise(resolve => {
-    authReadyResolve = resolve;
+  let authReadyResolve
+  const authReady = new Promise((resolve) => {
+    authReadyResolve = resolve
   })
 
   function initAuth() {
@@ -121,49 +116,56 @@ export const useAuthStore = defineStore('auth', () => {
           // ...firebaseUser,
           uid: firebaseUser.uid,
           ...userData,
-          registerDate: userData.registerDate?.toDate()
+          registerDate: userData.registerDate?.toDate(),
         }
       } else {
-        user.value = null;
+        user.value = null
       }
 
-      isLoading.value = false;
-      authReadyResolve();
+      isLoading.value = false
+      authReadyResolve()
     })
   }
 
   async function changePassword(currentPassword, newPassword) {
-    const curUser = auth.currentUser;
-    
+    const curUser = auth.currentUser
+
     // Reauthentificate again
-    const credential = EmailAuthProvider.credential(curUser.email, currentPassword);
-    await reauthenticateWithCredential(curUser, credential);
+    const credential = EmailAuthProvider.credential(curUser.email, currentPassword)
+    await reauthenticateWithCredential(curUser, credential)
 
     await updatePassword(curUser, newPassword)
   }
 
   async function deleteAccount(currentPassword) {
-    const curUser = auth.currentUser;
+    const curUser = auth.currentUser
 
     // Reauthentificate again
-    const credential = EmailAuthProvider.credential(curUser.email, currentPassword);
-    await reauthenticateWithCredential(curUser, credential);
+    const credential = EmailAuthProvider.credential(curUser.email, currentPassword)
+    await reauthenticateWithCredential(curUser, credential)
 
     // Deleting user data from Firestore
-    await deleteDoc(doc(db, "users", curUser.uid));
+    await deleteDoc(doc(db, 'users', curUser.uid))
 
     // Deleting data from Firebase Authentifciation
     await deleteUser(curUser)
   }
 
-
-
   return {
-    user, isLoading, avatarURL, fullName, 
-    login, logout, initAuth, register,
-    isLoggedIn, userType, 
-    updateAvatar, updateFullName,
-    changePassword, deleteAccount,
-    authReady
+    user,
+    isLoading,
+    avatarURL,
+    fullName,
+    login,
+    logout,
+    initAuth,
+    register,
+    isLoggedIn,
+    userType,
+    updateAvatar,
+    updateFullName,
+    changePassword,
+    deleteAccount,
+    authReady,
   }
 })

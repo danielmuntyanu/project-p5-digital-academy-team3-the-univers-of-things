@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia'
 import { LayoutDashboard } from 'lucide-vue-next'
 
 const auth = useAuthStore()
-const { userType, avatarURL, username } = storeToRefs(auth)
+const { userType, avatarURL, fullName } = storeToRefs(auth)
 const router = useRouter()
 
 const mobileMenuOpen = ref(false)
@@ -120,7 +120,7 @@ async function handleLogout() {
 
       <!-- Registrado -->
       <div v-else class="header-actions">
-        <span class="header-username">{{ username }}</span>
+        <span class="header-username">{{ fullName }}</span>
         <RouterLink to="/settings" class="header-btn-avatar">
           <img
             :src="avatarURL ? avatarURL : 'https://api.dicebear.com/7.x/avataaars/svg?seed=nexus'"
@@ -156,9 +156,8 @@ async function handleLogout() {
           :to="dashboardLink"
           class="mobile-nav-link"
           @click="closeMobileMenu"
+          >Dashboard</RouterLink
         >
-          Dashboard
-        </RouterLink>
       </nav>
     </Transition>
   </header>
