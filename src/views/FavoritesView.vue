@@ -160,7 +160,8 @@ const removeFromFavorites = async (animeId) => {
 @reference "../assets/main.css";
 
 .profile-container {
-    @apply flex ml-[120.5px] mt-10 items-center gap-6
+    @apply flex flex-col md:flex-row
+        ml-4 md:ml-[120.5px] mt-10 items-center md:items-center gap-4 md:gap-6
 }
 
 .profile-container img {
@@ -169,54 +170,50 @@ const removeFromFavorites = async (animeId) => {
 
 .profile-container p {
     font-family: 'Sora';
-    @apply font-bold text-[32px]
+    @apply font-bold text-[24px] md:text-[32px] text-center md:text-left
 }
 
 .sub-profile-container {
-    @apply
-        flex items-center gap-8
-        ml-[195px] mt-5
+    @apply flex items-center gap-4 md:gap-8
+        justify-center md:justify-start
+        ml-0 md:ml-[195px] mt-1
 }
 
 .sub-profile-container p {
     font-family: 'Sora';
-    @apply
-        text-text-muted text-sm
-        ;
+    @apply text-text-muted text-sm;
 }
 
 .sub-profile-container-separator {
-    @apply
-        text-text-muted
+    @apply text-text-muted
 }
 
 .admin-badge {
-    @apply
-        ml-2 px-2 py-1
+    @apply ml-0 md:ml-2 px-2 py-1
         text-xs rounded-full
-        bg-bg-brand-darker text-text-brand border border-border-brand
-        ;
+        bg-bg-brand-darker text-text-brand border border-border-brand;
 }
 
 .user-badge {
-    @apply
-        ml-2 px-2 py-1
+    @apply ml-0 md:ml-2 px-2 py-1
         text-xs rounded-full
-        bg-bg-input text-text-muted border border-border-default
-        ;
+        bg-bg-input text-text-muted border border-border-default;
 }
 
 .profile-stats {
-    @apply flex gap-5 mt-10 ml-[120.5px]
+    @apply flex flex-wrap gap-5 mt-10
+        justify-center md:justify-start
+        ml-0 md:ml-[120.5px]
 }
 
 .stats-container {
-    @apply bg-bg-container pt-6 pl-6 pb-3 border border-border-default rounded-lg w-60
+    @apply bg-bg-container pt-6 pl-6 pb-3 border border-border-default rounded-lg
+        w-60;
 }
 
 .stats-container h2 {
     font-family: 'JetBrains Mono';
-    @apply text-[14px] font-normal mb-2
+    @apply text-[14px] font-normal mb-2;
 }
 
 .stats-container p {
@@ -225,65 +222,62 @@ const removeFromFavorites = async (animeId) => {
 }
 
 .favorites-container {
-    @apply 
-        mt-10 ml-[120.5px] mr-40
+    @apply mt-10
+        mx-4 md:ml-[120.5px] md:mr-40
 }
 
- .favorites-list {
-  @apply
-    flex flex-col gap-4
-    mt-5;
+.favorites-list {
+    @apply flex flex-col gap-4 mt-5;
 }
 
 .favorite-row {
-  @apply
-    flex items-center gap-4 p-4
-    bg-bg-container border border-border-default rounded-lg
-    cursor-pointer hover:bg-bg-brand-darker transition-colors
-    relative;
+    @apply flex items-center gap-3 md:gap-4 p-3 md:p-4
+        bg-bg-container border border-border-default rounded-lg
+        cursor-pointer hover:bg-bg-brand-darker transition-colors
+        relative;
 }
 
 .row-image {
-  @apply
-    w-20 h-28 object-cover rounded-md shrink-0;
+    @apply w-14 h-20 md:w-20 md:h-28 object-cover rounded-md shrink-0;
 }
 
 .row-content {
-  @apply
-    flex-1 flex flex-col gap-2;
+    @apply flex-1 flex flex-col gap-2 min-w-0;
+}
+
+.row-content h3 {
+    @apply text-sm md:text-base truncate; 
 }
 
 .row-genres {
-  @apply
-    flex flex-wrap gap-2;
+    @apply hidden sm:flex flex-wrap gap-2;
 }
 
 .row-genre {
-  @apply
-    px-2 py-1 text-xs
-    rounded-full border border-border-default bg-bg-input;
+    @apply px-2 py-1 text-xs
+        rounded-full border border-border-default bg-bg-input;
 }
 
 .row-meta {
-  @apply
-    flex gap-4 text-sm text-text-muted;
+    @apply flex gap-4 text-sm text-text-muted;
+}
+
+.row-meta span:first-child {
+    @apply hidden sm:block; 
 }
 
 .row-score {
-  @apply
-    shrink-0 text-lg font-bold
-    pr-8;
+    @apply hidden sm:block
+        shrink-0 text-lg font-bold pr-8;
 }
 
 .remove-btn {
-    @apply
-        w-7 h-7 rounded-full
+    @apply w-7 h-7 rounded-full
         absolute top-2 right-2
         flex items-center justify-center
         bg-bg-input border border-border-default
         text-text-muted
         hover:text-text-brand hover:border-border-brand
-        transition-colors
-        hover:cursor-pointer;
+        transition-colors hover:cursor-pointer;
 }
 </style>
