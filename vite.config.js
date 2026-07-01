@@ -9,7 +9,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  // base: '/project-p5-digital-academy-team3-the-univers-of-things/',
+  base: '/project-p5-digital-academy-team3-the-univers-of-things/',
   plugins: [
     vue(),
     vueJsx(),
@@ -21,4 +21,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  build: {
+    chunkSizeWarningLimit: 1000
+  }
 })
