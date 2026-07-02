@@ -45,6 +45,7 @@ async function submitHandler() {
           placeholder="anime@nexus.com"
           class="login-input"
           :class="{ 'login-input-error': errorMessage }"
+          @keyup.enter="submitHandler"
         />
         <span class="login-input-icon">✉</span>
       </div>
@@ -62,6 +63,7 @@ async function submitHandler() {
           placeholder="••••••••"
           class="login-input"
           :class="{ 'login-input-error': errorMessage }"
+          @keyup.enter="submitHandler"
         />
         <button
           type="button"

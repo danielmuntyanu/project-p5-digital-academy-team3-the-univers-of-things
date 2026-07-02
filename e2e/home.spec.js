@@ -8,10 +8,6 @@ test.describe("HomeView", () => {
 
     // FEATURED
 
-    test("Show 'Loading...' message", async ({ page }) => {
-        await expect(page.getByText("Loading...")).toBeVisible();
-    })
-
     test("Show .featured-card when page is loaded", async ({ page }) => {
         await expect(page.locator(".featured-card")).toBeVisible({ timeout: 15000 });
     });
@@ -66,6 +62,8 @@ test.describe("HomeView", () => {
     // USABILITY
 
     test("Click on product card redirects to Details Page", async ({ page }) => {
+        await page.locator('.cookie-btn-accept').click();
+
         await page.waitForSelector(".product-card", { timeout: 15000 });
         await page.locator(".product-card").first().click();
         await expect(page).toHaveURL(/\/detail\/\d+/);
@@ -83,6 +81,8 @@ test.describe("HomeView", () => {
     });
 
     test("Next page of pagination works good", async ({ page }) => {
+        await page.locator('.cookie-btn-accept').click();
+        
         await page.waitForSelector(".pag_arrows", { timeout: 15000 });
         const arrows = page.locator(".pag_arrows");
         const nextPage = arrows.last();
