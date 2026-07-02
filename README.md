@@ -472,7 +472,7 @@ npm run test:e2e -- --debug
     "
 />
 
-## Autors
+## Authors
 
 - Danyil Muntianu ([GitHub](https://github.com/danielmuntyanu))
 - Jose Ángel Peña Díaz ([GitHub](https://github.com/joseang1))
