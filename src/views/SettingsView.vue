@@ -129,8 +129,8 @@ function closeDeleteModal() {
 }
 
 async function confirmDeleteAccount() {
-  if (deleteConfirmText.value !== 'ELIMINAR') {
-    deleteError.value = 'Escribe ELIMINAR para confirmar.'
+  if (deleteConfirmText.value !== 'DELETE') {
+    deleteError.value = 'Enter DELETE for accepting deletion of your account'
     return
   }
 
@@ -149,7 +149,7 @@ async function confirmDeleteAccount() {
     router.push('/login')
   } catch (error) {
     console.log(error)
-    deleteError.value = 'No se pudo eliminar la cuenta. Inténtalo de nuevo.'
+    deleteError.value = 'Cannot delete account. Please, try again later'
     isDeletingAccount.value = false
   }
 }
@@ -160,14 +160,14 @@ async function confirmDeleteAccount() {
     <div class="settings-container">
       <header class="settings-header">
         <h1 class="settings-title">Settings</h1>
-        <p class="settings-subtitle">Gestiona tu perfil, seguridad y preferencias de cuenta.</p>
+        <p class="settings-subtitle">Manage your profile, security, and account preferences.</p>
       </header>
 
       <!-- Perfil -->
       <section class="settings-card">
         <div class="settings-card-header">
-          <h2 class="settings-card-title">Perfil</h2>
-          <p class="settings-card-description">Tu nombre y avatar visibles en Nexus Anime.</p>
+          <h2 class="settings-card-title">Profile</h2>
+          <p class="settings-card-description">Your name and avatar visible at Nexus Anime.</p>
         </div>
 
         <div class="settings-avatar-row">
@@ -178,7 +178,7 @@ async function confirmDeleteAccount() {
           />
           <div class="settings-avatar-actions">
             <label class="settings-btn-secondary">
-              Subir avatar
+              Upload avatar
               <input
                 type="file"
                 accept="image/*"
@@ -186,7 +186,7 @@ async function confirmDeleteAccount() {
                 @change="handleAvatarUpload"
               />
             </label>
-            <p class="settings-avatar-hint">PNG o JPG, máximo 2MB.</p>
+            <p class="settings-avatar-hint">PNG or JPG, maximum 2MB.</p>
             <div class="avatar_error" :class="avatarError ? 'block' : 'hidden'">
               Error with uploading the avatar. 
             </div>
@@ -194,7 +194,7 @@ async function confirmDeleteAccount() {
         </div>
 
         <div class="settings-field">
-          <label class="settings-label">Nombre completo</label>
+          <label class="settings-label">Full Name</label>
           <input
             v-model="newFullName"
             type="text"
@@ -219,12 +219,12 @@ async function confirmDeleteAccount() {
       <!-- Cambiar contraseña -->
       <section class="settings-card">
         <div class="settings-card-header">
-          <h2 class="settings-card-title">Contraseña</h2>
-          <p class="settings-card-description">Actualiza la contraseña de acceso a tu cuenta.</p>
+          <h2 class="settings-card-title">Password</h2>
+          <p class="settings-card-description">Update your account access password.</p>
         </div>
 
         <div class="settings-field">
-          <label class="settings-label">Contraseña actual</label>
+          <label class="settings-label">Actual password</label>
           <div class="settings-input-wrap">
             <input
               v-model="currentPassword"
@@ -244,7 +244,7 @@ async function confirmDeleteAccount() {
         </div>
 
         <div class="settings-field">
-          <label class="settings-label">Nueva contraseña</label>
+          <label class="settings-label">New password</label>
           <div class="settings-input-wrap">
             <input
               v-model="newPassword"
@@ -264,7 +264,7 @@ async function confirmDeleteAccount() {
         </div>
 
         <div class="settings-field">
-          <label class="settings-label">Confirmar nueva contraseña</label>
+          <label class="settings-label">Confirm new password</label>
           <input
             v-model="confirmPassword"
             type="password"
@@ -282,7 +282,7 @@ async function confirmDeleteAccount() {
           :disabled="isSavingPassword"
           @click="changePasswordHandler"
         >
-          {{ isSavingPassword ? 'Actualizando...' : 'Actualizar contraseña' }}
+          {{ isSavingPassword ? 'Updating...' : 'Change password' }}
         </button>
       </section>
 
@@ -291,12 +291,12 @@ async function confirmDeleteAccount() {
         <div class="settings-card-header">
           <h2 class="settings-card-title settings-card-title-danger">Eliminar cuenta</h2>
           <p class="settings-card-description">
-            Esta acción es permanente. Se eliminarán tu perfil, favoritos y datos asociados.
+            This action is permanent. Your profile, favorites, and associated data will be deleted.
           </p>
         </div>
 
         <button type="button" class="settings-btn-danger" @click="openDeleteModal">
-          Eliminar mi cuenta
+          Delete account
         </button>
       </section>
     </div>
@@ -306,13 +306,13 @@ async function confirmDeleteAccount() {
       <div class="settings-modal">
         <h3 class="settings-modal-title">¿Eliminar tu cuenta?</h3>
         <p class="settings-modal-text">
-          Esta acción no se puede deshacer. Escribe <strong>ELIMINAR</strong> para confirmar.
+          This action cannot be undone. Enter <strong>DELETE</strong> to confirm.
         </p>
 
         <input
           v-model="deleteConfirmText"
           type="text"
-          placeholder="ELIMINAR"
+          placeholder="DELETE"
           class="settings-input"
         />
 
@@ -329,7 +329,7 @@ async function confirmDeleteAccount() {
           <button
             type="button"
             class="settings-input-icon settings-toggle-password"
-            :aria-label="showDeletingPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+            :aria-label="showDeletingPassword ? 'Hide password' : 'Show password'"
             @click="toggleDeletingPasswordVisibility"
           >
             {{ showDeletingPassword ? '🙈' : '👁' }}
@@ -348,7 +348,7 @@ async function confirmDeleteAccount() {
             :disabled="isDeletingAccount"
             @click="confirmDeleteAccount"
           >
-            {{ isDeletingAccount ? 'Eliminando...' : 'Confirmar eliminación' }}
+            {{ isDeletingAccount ? 'Deleting...' : 'Confirm deletion' }}
           </button>
         </div>
       </div>

@@ -120,7 +120,9 @@ async function handleLogout() {
 
       <!-- Registrado -->
       <div v-else class="header-actions">
-        <span class="header-username">{{ fullName }}</span>
+        <RouterLink to="/settings">
+          <span class="header-username">{{ fullName }}</span>
+        </RouterLink>
         <RouterLink to="/settings" class="header-btn-avatar">
           <img
             :src="avatarURL ? avatarURL : 'https://api.dicebear.com/7.x/avataaars/svg?seed=nexus'"
@@ -218,7 +220,8 @@ async function handleLogout() {
 }
 
 .header-username {
-  @apply hidden md:block text-sm text-text-default font-medium max-w-[140px] truncate;
+  @apply hidden md:block text-sm text-text-default hover:text-text-brand hover:underline font-medium max-w-35 truncate
+  ;
 }
 
 .header-btn-avatar {
@@ -259,4 +262,5 @@ async function handleLogout() {
   opacity: 0;
   transform: translateY(-8px);
 }
+
 </style>
