@@ -33,7 +33,7 @@ const videoURL = computed(() => {
   const videoSettings = '&mute=1&loop=1&controls=0&showinfo=0&rel&cc_load_policy=0&modestbranding=1&iv_load_policy=3'
 
   return rawURL + videoSettings
-})
+})  
 
 const bgImage = computed(() => {
     if (videoURL.value) return {}

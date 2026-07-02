@@ -1,5 +1,10 @@
 export default function paginateProducts (products, itemsPerPage = 8) {
     
+    if (!products || !Array.isArray(products) || products.length == 0) {
+        return [];
+    }
+
+
     const paginated = [];
 
     // [ 
