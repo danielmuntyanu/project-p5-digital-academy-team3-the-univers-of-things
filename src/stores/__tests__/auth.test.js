@@ -1,37 +1,37 @@
 import { describe, test, expect, beforeEach, vi } from 'vitest'
 import { setActivePinia, createPinia } from 'pinia'
-import { useAuthStore } from '../../stores/auth'
+import { useAuthStore } from '../../stores/auth-store'
 
 describe('useAuthStore', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
+    const auth = useAuthStore()
+
+    auth.initAuth()
   })
 
-  test('usuario no está logueado por defecto', () => {
+  test('should show that user is not logged yet', () => {
     const auth = useAuthStore()
     expect(auth.isLoggedIn).toBe(false)
     expect(auth.user).toBe(null)
   })
 
-  // test('al hacer login el usuario pasa a estar logueado', () => {
-  //   const auth = useAuthStore()
-  //   auth.login({ name: 'Luffy', avatar: 'url-avatar' })
-  //   expect(auth.isLoggedIn).toBe(true)
-  //   expect(auth.user.name).toBe('Luffy')
-  // })
+  test('should login to account and show users name', async () => {
+    const auth = useAuthStore()
+    await auth.login("daniel@nexus.com", "111222333")
+    expect(auth.isLoggedIn).toBe(true)
+    expect(auth.user.fullName).toBe('Daniel')
+  })
 
-  // test('al hacer logout el usuario deja de estar logueado', () => {
-  //   const auth = useAuthStore()
-  //   auth.login({ name: 'Luffy' })
-  //   auth.logout()
-  //   expect(auth.isLoggedIn).toBe(false)
-  //   expect(auth.user).toBe(null)
-  // })
+  test('should login and logout then and show logged status as false', async () => {
+    const auth = useAuthStore()
+    await auth.login("daniel@nexus.com", "111222333")
+    expect(auth.isLoggedIn).toBe(true)
 
-  // test('usuario logueado tiene datos de usuario', () => {
-  //   const auth = useAuthStore()
-  //   auth.login({ name: 'Luffy', avatar: 'url-avatar' })
-  //   expect(auth.user).not.toBe(null)
-  //   expect(auth.user.name).toBeDefined()
-  // })
+    await auth.logout()
+    expect(auth.isLoggedIn).toBe(false)
+
+
+  })
+
 })

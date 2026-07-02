@@ -472,7 +472,38 @@ npm run test:e2e -- --debug
     "
 />
 
-## Authors
+<br>
+
+## Testing
+
+### Unit Tests by Vitest
+
+<img 
+    width="1300" height="2000" 
+    alt="Nexus Anime - Homepage" 
+    src="./docs/testing/unit.png" 
+    style="
+        border: 1px solid #ccc; 
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    "
+/>
+
+### e2e tests by Playwright
+
+<img 
+    width="1300" height="850" 
+    alt="Nexus Anime - Homepage" 
+    src="./docs/testing/e2e.png" 
+    style="
+        border: 1px solid #ccc; 
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    "
+/>
+<br><br>
+
+## Autors
 
 - Danyil Muntianu ([GitHub](https://github.com/danielmuntyanu))
 - Jose Ángel Peña Díaz ([GitHub](https://github.com/joseang1))
