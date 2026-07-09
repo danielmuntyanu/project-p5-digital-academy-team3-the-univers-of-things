@@ -12,7 +12,12 @@ export const useProductsStore = defineStore('products', () => {
 
   // Actions
   async function call() {
-    products.value = await getProducts(1)
+    try {
+      products.value = await getProducts(1)
+    } catch (error) {
+      products.value = null;
+      api_error.value = error?.message;
+    }
   }
 
   async function callMore(totalProducts = 200) {
