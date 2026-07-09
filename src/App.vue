@@ -11,10 +11,14 @@ import { useProductsStore } from './stores/products-store.js'
 
 const { isLoading } = storeToRefs(useAuthStore())
 
-const { call, callMore } = useProductsStore()
+const productsStore = useProductsStore()
+const { products } = storeToRefs(productsStore)
+const { call, callMore } = productsStore
 
 onMounted(async () => {
   await call()
+  if (!products.value) return
+  
   callMore(500)
 })
 </script>
