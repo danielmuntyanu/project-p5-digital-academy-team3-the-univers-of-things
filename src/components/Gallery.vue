@@ -24,7 +24,7 @@
         if (!products?.value) {
             return "Loading...";
         } else if (api_error.value) {
-            return "API error occured!"
+            return api_error.value;
         } else {
             return "No items found";
         }

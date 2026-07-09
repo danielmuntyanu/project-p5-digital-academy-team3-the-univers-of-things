@@ -1,5 +1,8 @@
 import sleep from "@/services/utils/sleep";
 
+let retries = 0;
+const MAX_RETRIES = 20;
+
 export default async function getProducts(page = 1) {
   try {
     if (typeof page !== "number") page = 1;
@@ -13,6 +16,17 @@ export default async function getProducts(page = 1) {
       await sleep(1000);
       return await getProducts(page);
     }
+
+    // If error "504" jikan API server problems
+    if (response.status == 504) {
+      retries++;
+      if (retries > MAX_RETRIES) {
+        throw new Error("Can not get data from API. Please, try again later.")
+      }
+      await sleep(4000);
+      return await getProducts(page);
+    }
+    
 
     if (!response.ok) {
       throw new Error('Network response was not ok')
@@ -29,6 +43,6 @@ export default async function getProducts(page = 1) {
     return items
   } catch (error) {
     console.log(`ERROR: ${error.message}`)
-    return null
+    return null;
   }
 }
