@@ -1,0 +1,1 @@
+function e(e,t=8){if(!e||!Array.isArray(e)||e.length==0)return[];let n=[],r=0,i=0;return e.forEach(e=>{i===0&&(n.push([]),r++),n[r-1].push(e),i++,n[r-1].length>=t&&i>=t-1&&(i=0)}),n}export{e as t};

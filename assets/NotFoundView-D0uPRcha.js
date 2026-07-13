@@ -1,0 +1,1 @@
+import{S as e,s as t,t as n,u as r}from"./_plugin-vue_export-helper-3PL3Seez.js";var i={};function a(n,i){return e(),r(`section`,null,[...i[0]||=[t(`h1`,null,`Not Found`,-1)]])}var o=n(i,[[`render`,a],[`__scopeId`,`data-v-8cf0d971`]]);export{o as default};
