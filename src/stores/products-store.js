@@ -15,8 +15,10 @@ export const useProductsStore = defineStore('products', () => {
     try {
       products.value = await getProducts(1)
     } catch (error) {
+      console.log("AAAAAAAAAAAA", error);
+      
       products.value = null;
-      api_error.value = error?.message;
+      api_error.value = error;
     }
   }
 

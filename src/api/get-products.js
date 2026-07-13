@@ -19,12 +19,25 @@ export default async function getProducts(page = 1) {
 
     // If error "504" jikan API server problems
     if (response.status == 504) {
-      retries++;
-      if (retries > MAX_RETRIES) {
-        throw new Error("Can not get data from API. Please, try again later.")
+
+      try {
+        await sleep(1500)
+        const altURL = 'https://api.jikan.moe/v4/anime'
+        const resp = await fetch(altURL)
+        const respJson = await resp.json()
+        return respJson.data;
+      } catch (error) {
+        throw new Error("there is technical work on the website. Please, try again later.")
       }
-      await sleep(4000);
-      return await getProducts(page);
+
+      // console.log(`Trying to fetch again: ${retries}/${MAX_RETRIES} tries`);
+      
+      // retries++;
+      // if (retries > MAX_RETRIES) {
+      //   throw new Error("Can not get data from API. Please, try again later.")
+      // }
+      // await sleep(4000);
+      // return await getProducts(page);
     }
     
 
