@@ -2,7 +2,7 @@
 
 ## Description
 
-Website preview link: [Nexus Anime](https://factoriaf5-asturias.github.io/project-p5-digital-academy-team3-the-univers-of-things/)
+Website preview link: [Nexus Anime](https://danielmuntyanu.github.io/project-p5-digital-academy-team3-the-univers-of-things/)
 <br>
 
 ### About the project
